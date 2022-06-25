@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
+from typing import List
 import cv2
 import math
 import numpy as np
@@ -335,8 +336,10 @@ class Solvemethod(Enum):
     UnChoose = 0
     K_method = 1
     Beginner_method = 2
-     
+
+
 class MyWidget(QMainWindow,Ui_MainWindow):
+    
     sendCube2D = Signal(object)
     sendStep = Signal(object)
     def restart_program(self):
@@ -362,6 +365,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         self.MyInit()
         self.slot_init()
         self.MySetStyles()
+        self.color_s=[[0 for col in range(3)] for face in range(9)]
 
         # self.loadGLTextures()
         self.openGLWidget.setObjectName(u"openGLWidget")
@@ -524,11 +528,11 @@ class MyWidget(QMainWindow,Ui_MainWindow):
 
         self.sendCube2D.connect(self.openGLWidget.receiveCube)
         self.sendStep.connect(self.openGLWidget.receiveStep)
-        
+ 
     def show_camera(self):
+    
         is_ok, bgr_image_input = self.cap.read()
         bgr_image_input=np.fliplr(bgr_image_input.copy())
-        
         ret,image = self.cap.read()
         image = cv2.flip( image, 1 )
         x,y = image.shape[0:2]
@@ -537,7 +541,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         recnum = 0
         cords = [[0 for col in range(2)] for row in range(9)]
         dilation = process(image)
-
+        
         contours, hierarchy = cv2.findContours(dilation,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
         for cnt in contours:
             approx = cv2.approxPolyDP(cnt,0.12*cv2.arcLength(cnt,True),True)
@@ -571,6 +575,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                 if (recnum == 9 and approx_is_square(approx) == True):
                     string = get_string(cords)
                     color_string = get_average_color(image,string)
+                    self.color_s = color_string
                     thecolor = get_color_string(color_string)
                     
                     create_referrence_color(image,thecolor)
@@ -608,7 +613,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         #初始识别
         if(self.CountDown_Flag == False and self.curState == CurState.OriginalColor_Detect):
             image_output,contours = ImgInput.DrawContours(image_output)
-            facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect)
+            facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s)
             self.faces = facesList
             if(self.DetecteDone_Flag):
                 # print(self.Cube2D.up_face)
@@ -689,7 +694,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                     self.NextMove_Flag = False
                 image_output,contours = ImgInput.DrawContours(bgr_image_input)
                 # is_ok, bgr_image_input = self.cap.read()
-                facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect)
+                facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s)
                 self.faces = facesList
                 if(self.DetecteDone_Flag):
                     if(len(self.detected_face)!= 0):
@@ -787,8 +792,9 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                             self.ui.Text12_NamePair.setText(text)
                         self.NextMove_Flag = False
                     image_output,contours = ImgInput.DrawContours(bgr_image_input)
+                    image_output = image.copy()
                     # is_ok, bgr_image_input = self.cap.read()
-                    facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect)
+                    facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.c)
                     self.faces = facesList
                     if(self.DetecteDone_Flag):
                         if(len(self.detected_face)!= 0):
@@ -985,7 +991,7 @@ class MyGLWidget(QtOpenGL.QGLWidget):
 
 # 程序入口
 if __name__ == "__main__":
-    os.environ['QT_SCALE_FACTOR']="0.50"
+    os.environ['QT_SCALE_FACTOR']="1"
     QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     app = QApplication(sys.argv)
     window = MyWidget()

@@ -20,90 +20,68 @@ def color(bgrtuple):
     """
     Takes a tuple input that has (b,g,r) and return the color of that pixel
     """
+    HSVRange_Yellow = [26, 37, 43, 256, 46, 256]
+    HSVRange_Red = [-1, 10, 43, 256, 46, 256]
+    HSVRange_Green = [55, 80, 43, 256, 46, 256]
+    HSVRange_Orange = [10, 25, 43, 256, 46, 256]
+    # HSVRange_Orange = [11, 25, 43, 255, 46, 255]
+    HSVRange_Blue = [90, 110, 43, 256, 46, 256]
+    HSVRange_White = [0, 180, 0, 60, 150, 256]
     bgrtuple = list(bgrtuple)
     
     b = bgrtuple[0]
     g = bgrtuple[1]
     r = bgrtuple[2]
-    #if (r >100 and  r*1.3> g > r*0.9 and r*0.9>b>r*0.7):
-    if (-60 < r-g < 60 and 55<r-b<105):
-        return "yellow"
-    if (r>180 and g<r*0.5 and b< r*0.5):
-        return "red"
-    if (r-g>20 and r-b>20):
-        return "orange"
-    if (g-b>30 and g-r>30):
-    #if (g>120 and r <120 and b <120):
-        return "green"
-    if (b-r >30 and b - g >30):
-        return "blue"
-    if (g*1.2>r>g*0.8 and g*1.2>b>g*0.8):
+    
+    imgBGR=np.dstack([b,g,r])
+    hsv_image_input = cv2.cvtColor(imgBGR.astype(np.uint8), COLOR_BGR2HSV)
+    cv2.imshow("Output Image HSV", hsv_image_input)
+    h,s,v=cv2.split(hsv_image_input)
+    if (h in range(HSVRange_White[0], HSVRange_White[1])) and (s in range(HSVRange_White[2], HSVRange_White[3])) and (v in range(HSVRange_White[4], HSVRange_White[5])):
         return "white"
+    elif (h in range(HSVRange_Yellow[0], HSVRange_Yellow[1])) and (s in range(HSVRange_Yellow[2], HSVRange_Yellow[3])) and (v in range(HSVRange_Yellow[4], HSVRange_Yellow[5])):
+        return "yellow"
+    elif (h in range(HSVRange_Blue[0], HSVRange_Blue[1])) and (s in range(HSVRange_Blue[2], HSVRange_Blue[3])) and (v in range(HSVRange_Blue[4], HSVRange_Blue[5])):
+        return "blue"
+    elif (h in range(HSVRange_Red[0], HSVRange_Red[1])) and (s in range(HSVRange_Red[2], HSVRange_Red[3])) and (v in range(HSVRange_Red[4], HSVRange_Red[5])):
+        return "red"
+    elif (h in range(HSVRange_Green[0], HSVRange_Green[1])) and (s in range(HSVRange_Green[2], HSVRange_Green[3])) and (v in range(HSVRange_Green[4], HSVRange_Green[5])):
+        return "green"
+    elif (h in range(HSVRange_Orange[0], HSVRange_Orange[1])) and (s in range(HSVRange_Orange[2], HSVRange_Orange[3])) and (v in range(HSVRange_Orange[4], HSVRange_Orange[5])):
+        return "orange"
     else:
         return "grey"
+    
+    # #if (r >100 and  r*1.3> g > r*0.9 and r*0.9>b>r*0.7):
+    # if (-60 < r-g < 60 and 55<r-b<105):
+    #     return "yellow"
+    # if (r>180 and g<r*0.5 and b< r*0.5):
+    #     return "red"
+    # if (r-g>20 and r-b>20):
+    #     return "orange"
+    # if (g-b>30 and g-r>30):
+    # #if (g>120 and r <120 and b <120):
+    #     return "green"
+    # if (b-r >30 and b - g >30):
+    #     return "blue"
+    # if (g*1.2>r>g*0.8 and g*1.2>b>g*0.8):
+    #     return "white"
+    # else:
+    #     return "grey"
 def detect_face(bgr_image_input, contours,bgrlist):  # 检测面
-    print("aaaaaaaaaaaaaaaaa")
-    HSVRange_Yellow = [26, 37, 43, 256, 46, 256]
-    HSVRange_Red = [-1, 4, 43, 256, 46, 256]
-    HSVRange_Green = [55, 80, 43, 256, 46, 256]
-    HSVRange_Orange = [4, 25, 43, 256, 46, 256]
-    # HSVRange_Orange = [11, 25, 43, 255, 46, 255]
-    HSVRange_Blue = [90, 110, 43, 256, 46, 256]
-    HSVRange_White = [0, 180, 0, 60, 150, 256]
     i = 0
     contour_id = 0
-    # print(len(contours))
-    count = 0
-    blob_colors = []
-    hsv_image_input = cv2.cvtColor(bgr_image_input, COLOR_BGR2HSV)  # 转换到HSV颜色空间
-    cv2.imshow("Output Image HSV", hsv_image_input)
-    red_lo=np.array([156,43,43])
-    red_hi=np.array([180,256,256])
-    mask=cv2.inRange(hsv_image_input,red_lo,red_hi)
-    hsv_image_input[mask>0]=(2,250,250)
-    for contour in contours:  # 对每一个轮廓的内容进行颜色识别
-        A1 = cv2.contourArea(contour)
-        contour_id = contour_id + 1
-        if A1 < STICKER_AREA_SIZE_MAX and A1 > STICKER_AREA_SIZE_MIN:
-            perimeter = cv2.arcLength(contour, True)
-            epsilon = 0.01 * perimeter
-            approx = cv2.approxPolyDP(contour, epsilon, True)
-            hull = cv2.convexHull(contour)
-            if cv2.norm(((perimeter / 4) * (perimeter / 4)) - A1) < 500:
-                count = count + 1
-                x, y, w, h = cv2.boundingRect(contour)
-                _w = w//4
-                _h = h//4
-                val = (50*y) + (10*x)  # 这是什么意思
-                # blob_color = np.array(
-                #     cv2.mean(hsv_image_input[y:y+h, x:x+w])).astype(int)  # 求出范围内HSV均值并记录
-                # show =  bgr_image_input[y+_h:y + 2*_h, x+_w:x + 2*_w].copy()
-                # windowname = 'cutted contour'+ str(contour_id)
-                # cv2.imshow(windowname, show)
-                blob_color = np.array(
-                    cv2.mean(hsv_image_input[y+_h:y+_h+1, x+_w:x +_w+1])).astype(int)  # 求出范围内HSV均值并记录
-                blob_color = np.append(blob_color, val)
-                blob_color = np.append(blob_color, x)
-                blob_color = np.append(blob_color, y)
-                blob_color = np.append(blob_color, w)
-                blob_color = np.append(blob_color, h)
-                blob_colors.append(blob_color)
-    if len(blob_colors) > 0:
-        blob_colors = np.asarray(blob_colors)
-        blob_colors = blob_colors[blob_colors[:, 4].argsort()]
     face = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0])
-    blob_colors =  np.zeros((10,4), dtype = int) 
+    blob_colors =  np.zeros((10,4), dtype = int)
     if 1:
         # print(blob_colors)
         result_string = ["hi" for face in range(9)]
-    
         running = 0
         while (running < 9):
             bgrstring = bgrlist[running]
             result_string[running] = color(tuple(bgrstring))
             running = running+1
-        print(len(blob_colors))
-        for i in range(0,9):  # 比较HSV颜色值分辨颜色#RGB
+        for i in range(0,9):  # 比较HSV颜色值分辨颜色
             if(result_string[i] == "white"):
                 blob_colors[i][3]=6
                 face[i] = 6
@@ -141,13 +119,15 @@ def detect_face(bgr_image_input, contours,bgrlist):  # 检测面
             # elif (blob_colors[i][0] in range(HSVRange_Orange[0], HSVRange_Orange[1])) and (blob_colors[i][1] in range(HSVRange_Orange[2], HSVRange_Orange[3])) and (blob_colors[i][2] in range(HSVRange_Orange[4], HSVRange_Orange[5])):
             #     blob_colors[i][3] = 5
             #     face[i] = 5
-            
+
         print(np.count_nonzero(face))
         print(face)
         if np.count_nonzero(face) == 9:
             # print(face)
             # print(blob_colors)
-            return face, blob_colors
+            face_new = np.array([face[2], face[1], face[0], face[5], face[4], face[3], face[8], face[7], face[6]]) #镜像
+            blob_colors=np.flip(blob_colors)
+            return face_new, blob_colors
         else:
             # print(blob_colors)
             return [0, 0], blob_colors

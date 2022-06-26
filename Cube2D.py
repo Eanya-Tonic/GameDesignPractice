@@ -74,7 +74,7 @@ class Cube2D():
                 CalculateDone = True
                 return solved,steps,CalculateDone
             except:
-                # print('识别结果不构成标准魔方，无法还原')
+                print('识别结果不构成标准魔方，无法还原')
                 # text = '识别结果不构成标准魔方，无法还原'
                 steps = [0]
                 CalculateDone = False

@@ -632,6 +632,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         #初始确认
         if(self.CountDown_Flag == False and self.curState == CurState.OriginalColor_Confirm):
             image_output,contours = ImgInput.DrawContours(bgr_image_input)
+            self.color_s =[[0 for col in range(3)] for face in range(9)]
             if(self.curDetect <=6):
                 if(self.CenterCorret_Flag == True):
                     self.ui.Text3_Instruction.setText("请确认识别结果")
@@ -991,7 +992,7 @@ class MyGLWidget(QtOpenGL.QGLWidget):
 
 # 程序入口
 if __name__ == "__main__":
-    os.environ['QT_SCALE_FACTOR']="1"
+    os.environ['QT_SCALE_FACTOR']="0.5"
     QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     app = QApplication(sys.argv)
     window = MyWidget()

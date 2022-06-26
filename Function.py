@@ -425,5 +425,5 @@ def DrawInstruction(bgr_image_input,blob_colors,condition):
             centroid2 = blob_colors[6]
         point1 = (int(centroid1[4]), int(centroid1[5]))
         point2 = (int(centroid2[4]), int(centroid2[5]))
-        cv2.arrowedLine(bgr_image_input, point1, point2, LINE_COLOR,5, 4, 0, TIP_LENGTH)
+        cv2.arrowedLine(bgr_image_input, point2, point1, LINE_COLOR,5, 4, 0, TIP_LENGTH)
     return bgr_image_input

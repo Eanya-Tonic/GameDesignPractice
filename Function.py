@@ -79,8 +79,11 @@ def detect_face(bgr_image_input, contours,bgrlist):  # 检测面
         running = 0
         while (running < 9):
             bgrstring = bgrlist[running]
-            blob_colors[running][4]=bgrstring[3]
-            blob_colors[running][5]=bgrstring[4]
+            try:
+                blob_colors[running][4]=bgrstring[3]
+                blob_colors[running][5]=bgrstring[4]
+            except:
+                pass
             result_string[running] = color(tuple(bgrstring))
             running = running+1
         for i in range(0,9):  # 比较HSV颜色值分辨颜色
@@ -368,12 +371,12 @@ def DrawInstruction(bgr_image_input,blob_colors,condition):
         centroid4 = blob_colors[5]
         centroid5 = blob_colors[0]
         centroid6 = blob_colors[2]
-        point1 = (int(centroid2[5] + (centroid2[8] / 2)), int(centroid2[6] + (centroid2[8] / 2)))
-        point2 = (int(centroid1[5] + (centroid1[7] / 2)), int(centroid1[6] + (centroid1[7] / 2)))
-        point3 = (int(centroid4[5] + (centroid4[8] / 2)), int(centroid4[6] + (centroid4[8] / 2)))
-        point4 = (int(centroid3[5] + (centroid3[7] / 2)), int(centroid3[6] + (centroid3[7] / 2)))
-        point5 = (int(centroid6[5] + (centroid6[8] / 2)), int(centroid6[6] + (centroid6[8] / 2)))
-        point6 = (int(centroid5[5] + (centroid5[7] / 2)), int(centroid5[6] + (centroid5[7] / 2)))
+        point1 = (int(centroid2[4]), int(centroid2[5]))
+        point2 = (int(centroid1[4]), int(centroid1[5]))
+        point3 = (int(centroid4[4]), int(centroid4[5]))
+        point4 = (int(centroid3[4]), int(centroid3[5]))
+        point5 = (int(centroid6[4]), int(centroid6[5]))
+        point6 = (int(centroid5[4]), int(centroid5[5]))
         cv2.arrowedLine(bgr_image_input, point1, point2, LINE_COLOR, 5,4,0,TIP_LENGTH)
         cv2.arrowedLine(bgr_image_input, point3, point4, LINE_COLOR, 5,4,0,TIP_LENGTH)
         cv2.arrowedLine(bgr_image_input, point5, point6, LINE_COLOR, 5,4,0,TIP_LENGTH)
@@ -384,12 +387,12 @@ def DrawInstruction(bgr_image_input,blob_colors,condition):
         centroid4 = blob_colors[3]
         centroid5 = blob_colors[2]
         centroid6 = blob_colors[0]
-        point1 = (int(centroid2[5] + (centroid2[8] / 2)), int(centroid2[6] + (centroid2[8] / 2)))
-        point2 = (int(centroid1[5] + (centroid1[7] / 2)), int(centroid1[6] + (centroid1[7] / 2)))
-        point3 = (int(centroid4[5] + (centroid4[8] / 2)), int(centroid4[6] + (centroid4[8] / 2)))
-        point4 = (int(centroid3[5] + (centroid3[7] / 2)), int(centroid3[6] + (centroid3[7] / 2)))
-        point5 = (int(centroid6[5] + (centroid6[8] / 2)), int(centroid6[6] + (centroid6[8] / 2)))
-        point6 = (int(centroid5[5] + (centroid5[7] / 2)), int(centroid5[6] + (centroid5[7] / 2)))
+        point1 = (int(centroid2[4]), int(centroid2[5]))
+        point2 = (int(centroid1[4]), int(centroid1[5]))
+        point3 = (int(centroid4[4]), int(centroid4[5]))
+        point4 = (int(centroid3[4]), int(centroid3[5]))
+        point5 = (int(centroid6[4]), int(centroid6[5]))
+        point6 = (int(centroid5[4]), int(centroid5[5]))
         cv2.arrowedLine(bgr_image_input, point1, point2, LINE_COLOR, 5,4,0, TIP_LENGTH)
         cv2.arrowedLine(bgr_image_input, point3, point4, LINE_COLOR, 5,4,0,TIP_LENGTH)
         cv2.arrowedLine(bgr_image_input, point5, point6, LINE_COLOR, 5,4,0, TIP_LENGTH)
@@ -422,7 +425,5 @@ def DrawInstruction(bgr_image_input,blob_colors,condition):
             centroid2 = blob_colors[6]
         point1 = (int(centroid1[4]), int(centroid1[5]))
         point2 = (int(centroid2[4]), int(centroid2[5]))
-        print(point1)
-        print(point2)
         cv2.arrowedLine(bgr_image_input, point1, point2, LINE_COLOR,5, 4, 0, TIP_LENGTH)
     return bgr_image_input

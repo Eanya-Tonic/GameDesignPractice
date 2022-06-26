@@ -420,6 +420,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         self.pll_step_1 = []
         self.pll_step_2 = []
         self.color_s=[[0 for col in range(5)] for face in range(9)]
+        self.noCircle=False
 
         ####DEBUG
 
@@ -569,7 +570,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                 cords = list(cords)
                 cords[recnum-1] = [xavg,yavg]
                 
-                if (approx_is_square(approx) == True):
+                if (approx_is_square(approx) == True and self.noCircle == False):
                     
                     cv2.circle(image,(xavg,yavg),15,(255,255,255),5)
                     #cv2.putText(image,str(b[yavg,xavg])+str(g[yavg,xavg])+str(r[yavg,xavg]),(100,recnum*20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255))
@@ -614,7 +615,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
             self.ui.Text4_CountDown.close()
         #初始识别
         if(self.CountDown_Flag == False and self.curState == CurState.OriginalColor_Detect):
-            image_output,contours = ImgInput.DrawContours(image_output)
+            image_output1,contours = ImgInput.DrawContours(image_output)
             facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s)
             self.faces = facesList
             if(self.DetecteDone_Flag):
@@ -633,7 +634,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
             self.sendCube2D.emit(self.Cube2D)
         #初始确认
         if(self.CountDown_Flag == False and self.curState == CurState.OriginalColor_Confirm):
-            image_output,contours = ImgInput.DrawContours(bgr_image_input)
+            image_output1,contours = ImgInput.DrawContours(bgr_image_input)
             self.color_s =[[0 for col in range(3)] for face in range(9)]
             if(self.curDetect <=6):
                 if(self.CenterCorret_Flag == True):
@@ -672,6 +673,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
             self.ui.Text3_Instruction.setText("请保持黄色中心块向上，展示蓝色F面后点击确定开始")
             self.ProcessReady_Flag = True
             self.NextMove_Flag = True
+            self.noCircle=True
 
         if(self.CountDown_Flag == False and self.curState == CurState.ProgressColor_Detect):
             self.ui.Text9_Judge.close()
@@ -695,7 +697,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                     self.Cube2D_temp = self.Cube2D.copy()
                     self.Cube2D_temp= Cube2D.PreOperation(step,self.Cube2D_temp)
                     self.NextMove_Flag = False
-                image_output,contours = ImgInput.DrawContours(bgr_image_input)
+                image_output1,contours = ImgInput.DrawContours(bgr_image_input)
                 # is_ok, bgr_image_input = self.cap.read()
                 facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s)
                 self.faces = facesList
@@ -794,7 +796,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                             text = self.setNamepair(self.Cube2D_temp)
                             self.ui.Text12_NamePair.setText(text)
                         self.NextMove_Flag = False
-                    image_output,contours = ImgInput.DrawContours(bgr_image_input)
+                    image_output1,contours = ImgInput.DrawContours(bgr_image_input)
                     image_output = image.copy()
                     # is_ok, bgr_image_input = self.cap.read()
                     facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s)

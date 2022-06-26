@@ -300,7 +300,7 @@ def get_string(c_list):
     return string
 
 def get_average_color(image,image_coordinates):
-    result_string = [[0 for col in range(3)] for face in range(9)]
+    result_string = [[0 for col in range(5)] for face in range(9)]
     running = 0
     while (running < 9):
         x = image_coordinates[running][0]
@@ -308,6 +308,8 @@ def get_average_color(image,image_coordinates):
         result_string[running][0]= ev(image,x,y,0)
         result_string[running][1]= ev(image,x,y,1)
         result_string[running][2]= ev(image,x,y,2)
+        result_string[running][3]= x
+        result_string[running][4]= y
         running = running +1
     return result_string
 
@@ -365,7 +367,6 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         self.MyInit()
         self.slot_init()
         self.MySetStyles()
-        self.color_s=[[0 for col in range(3)] for face in range(9)]
 
         # self.loadGLTextures()
         self.openGLWidget.setObjectName(u"openGLWidget")
@@ -418,6 +419,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         self.oll_step_2 = []
         self.pll_step_1 = []
         self.pll_step_2 = []
+        self.color_s=[[0 for col in range(5)] for face in range(9)]
 
         ####DEBUG
 
@@ -795,7 +797,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                     image_output,contours = ImgInput.DrawContours(bgr_image_input)
                     image_output = image.copy()
                     # is_ok, bgr_image_input = self.cap.read()
-                    facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.c)
+                    facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s)
                     self.faces = facesList
                     if(self.DetecteDone_Flag):
                         if(len(self.detected_face)!= 0):
@@ -842,7 +844,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         self.DrawInstructionText(self.curDetect)
         self.timer_camera.start(30)
         
-
+        
         if(is_ok):
             show = cv2.resize(image_output,(1280,960))
             show = cv2.cvtColor(show,cv2.COLOR_BGR2RGB)

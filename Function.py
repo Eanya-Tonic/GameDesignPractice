@@ -25,7 +25,7 @@ def color(bgrtuple):
     HSVRange_Green = [55, 80, 43, 256, 46, 256]
     HSVRange_Orange = [10, 25, 43, 256, 46, 256]
     # HSVRange_Orange = [11, 25, 43, 255, 46, 255]
-    HSVRange_Blue = [90, 110, 43, 256, 46, 256]
+    HSVRange_Blue = [90, 124, 43, 256, 46, 256]
     HSVRange_White = [0, 180, 0, 60, 150, 256]
     bgrtuple = list(bgrtuple)
     
@@ -72,13 +72,15 @@ def detect_face(bgr_image_input, contours,bgrlist):  # 检测面
     i = 0
     contour_id = 0
     face = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0])
-    blob_colors =  np.zeros((10,4), dtype = int)
+    blob_colors =  np.zeros((10,6), dtype = int)
     if 1:
         # print(blob_colors)
         result_string = ["hi" for face in range(9)]
         running = 0
         while (running < 9):
             bgrstring = bgrlist[running]
+            blob_colors[running][4]=bgrstring[3]
+            blob_colors[running][5]=bgrstring[4]
             result_string[running] = color(tuple(bgrstring))
             running = running+1
         for i in range(0,9):  # 比较HSV颜色值分辨颜色
@@ -120,13 +122,10 @@ def detect_face(bgr_image_input, contours,bgrlist):  # 检测面
             #     blob_colors[i][3] = 5
             #     face[i] = 5
 
-        print(np.count_nonzero(face))
-        print(face)
         if np.count_nonzero(face) == 9:
             # print(face)
             # print(blob_colors)
             face_new = np.array([face[2], face[1], face[0], face[5], face[4], face[3], face[8], face[7], face[6]]) #镜像
-            blob_colors=np.flip(blob_colors)
             return face_new, blob_colors
         else:
             # print(blob_colors)
@@ -421,7 +420,9 @@ def DrawInstruction(bgr_image_input,blob_colors,condition):
         elif(condition == Op.Operation_ToShow.d):
             centroid1 = blob_colors[8]
             centroid2 = blob_colors[6]
-        point1 = (int(centroid1[5]+(centroid1[7]/2)), int(centroid1[6]+(centroid1[7]/2)))
-        point2 = (int(centroid2[5]+(centroid2[8]/2)), int(centroid2[6]+(centroid2[8]/2)))
+        point1 = (int(centroid1[4]), int(centroid1[5]))
+        point2 = (int(centroid2[4]), int(centroid2[5]))
+        print(point1)
+        print(point2)
         cv2.arrowedLine(bgr_image_input, point1, point2, LINE_COLOR,5, 4, 0, TIP_LENGTH)
     return bgr_image_input

@@ -21,9 +21,10 @@ def color(bgrtuple):
     Takes a tuple input that has (b,g,r) and return the color of that pixel
     """
     HSVRange_Yellow = [26, 37, 43, 256, 46, 256]
-    HSVRange_Red = [-1, 10, 43, 256, 46, 256]
+    HSVRange_Red = [-1, 8, 43, 256, 46, 256]
+    HSVRange_Red2 = [156, 180, 43, 256, 46, 256]
     HSVRange_Green = [55, 80, 43, 256, 46, 256]
-    HSVRange_Orange = [10, 25, 43, 256, 46, 256]
+    HSVRange_Orange = [8, 25, 43, 256, 46, 256]
     # HSVRange_Orange = [11, 25, 43, 255, 46, 255]
     HSVRange_Blue = [90, 124, 43, 256, 46, 256]
     HSVRange_White = [0, 180, 0, 60, 150, 256]
@@ -43,7 +44,7 @@ def color(bgrtuple):
         return "yellow"
     elif (h in range(HSVRange_Blue[0], HSVRange_Blue[1])) and (s in range(HSVRange_Blue[2], HSVRange_Blue[3])) and (v in range(HSVRange_Blue[4], HSVRange_Blue[5])):
         return "blue"
-    elif (h in range(HSVRange_Red[0], HSVRange_Red[1])) and (s in range(HSVRange_Red[2], HSVRange_Red[3])) and (v in range(HSVRange_Red[4], HSVRange_Red[5])):
+    elif ((h in range(HSVRange_Red[0], HSVRange_Red[1])) or (h in range(HSVRange_Red2[0], HSVRange_Red2[1]))) and (s in range(HSVRange_Red[2], HSVRange_Red[3])) and (v in range(HSVRange_Red[4], HSVRange_Red[5])):
         return "red"
     elif (h in range(HSVRange_Green[0], HSVRange_Green[1])) and (s in range(HSVRange_Green[2], HSVRange_Green[3])) and (v in range(HSVRange_Green[4], HSVRange_Green[5])):
         return "green"
@@ -124,7 +125,7 @@ def detect_face(bgr_image_input, contours,bgrlist):  # 检测面
             # elif (blob_colors[i][0] in range(HSVRange_Orange[0], HSVRange_Orange[1])) and (blob_colors[i][1] in range(HSVRange_Orange[2], HSVRange_Orange[3])) and (blob_colors[i][2] in range(HSVRange_Orange[4], HSVRange_Orange[5])):
             #     blob_colors[i][3] = 5
             #     face[i] = 5
-
+        print(face)
         if np.count_nonzero(face) == 9:
             # print(face)
             # print(blob_colors)

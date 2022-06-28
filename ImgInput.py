@@ -3,7 +3,7 @@ import numpy as np
 import Function as Fc
 
 
-DETECT_TIMES = 5
+DETECT_TIMES = 15
 def DrawContours(bgr_image_input):
     contours = Fc.FindContour(bgr_image_input)
     img = bgr_image_input

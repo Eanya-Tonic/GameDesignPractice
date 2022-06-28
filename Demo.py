@@ -666,6 +666,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         if(self.CountDown_Flag == False and self.curState == CurState.OriginalColor_Detect):
             image_output1,contours = ImgInput.DrawContours(image_output)
             facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s,self.knn)
+            self.color_s =[[0 for col in range(5)] for face in range(9)]
             self.faces = facesList
             if(self.DetecteDone_Flag):
                 # print(self.Cube2D.up_face)
@@ -748,7 +749,8 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                     self.NextMove_Flag = False
                 image_output1,contours = ImgInput.DrawContours(bgr_image_input)
                 # is_ok, bgr_image_input = self.cap.read()
-                facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s)
+                facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s,self.knn)
+                self.color_s =[[0 for col in range(5)] for face in range(9)]
                 self.faces = facesList
                 if(self.DetecteDone_Flag):
                     if(len(self.detected_face)!= 0):

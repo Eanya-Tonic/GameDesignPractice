@@ -21,7 +21,7 @@ def color(bgrlist,knn):
     Takes a tuple input that has (b,g,r) and return the color of that pixel
     """
     
-    bgrtuple = list(tuple(bgrlist[4]))
+    bgrtuple = list(tuple(bgrlist))
     
     b = bgrtuple[0]
     g = bgrtuple[1]
@@ -105,12 +105,13 @@ def detect_face(bgr_image_input, contours,bgrlist,knn):  # 检测面
         result_string = ["hi" for face in range(9)]
         running = 0
         while (running < 9):
+            bgrstring = bgrlist[running]
             try:
                 blob_colors[running][4]=bgrstring[3]
                 blob_colors[running][5]=bgrstring[4]
             except:
                 pass
-            result_string[running] = color(bgrlist,knn)
+            result_string[running] = color(bgrstring,knn)
             running = running+1
         for i in range(0,9):  # 比较HSV颜色值分辨颜色
             if(result_string[i] == "white"):

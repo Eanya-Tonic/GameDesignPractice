@@ -16,28 +16,39 @@ def concat(up_face, right_face, front_face, down_face, left_face, back_face):
     # print(solution)
     return solution
 
-def color(bgrtuple):
+def color(bgrlist,knn):
     """
     Takes a tuple input that has (b,g,r) and return the color of that pixel
     """
-    HSVRange_Yellow = [26, 37, 43, 256, 46, 256]
-    HSVRange_Red = [-1, 8, 43, 256, 46, 256]
-    HSVRange_Red2 = [156, 180, 43, 256, 46, 256]
-    HSVRange_Green = [55, 80, 43, 256, 46, 256]
-    HSVRange_Orange = [8, 25, 43, 256, 46, 256]
-    # HSVRange_Orange = [11, 25, 43, 255, 46, 255]
-    HSVRange_Blue = [90, 124, 43, 256, 46, 256]
-    HSVRange_White = [0, 180, 0, 60, 150, 256]
-    bgrtuple = list(bgrtuple)
+    
+    bgrtuple = list(tuple(bgrlist[4]))
     
     b = bgrtuple[0]
     g = bgrtuple[1]
     r = bgrtuple[2]
     
     imgBGR=np.dstack([b,g,r])
+    print(b,g,r)
     hsv_image_input = cv2.cvtColor(imgBGR.astype(np.uint8), COLOR_BGR2HSV)
-    cv2.imshow("Output Image HSV", hsv_image_input)
     h,s,v=cv2.split(hsv_image_input)
+    colorPred = knn.predict(np.array([h[0][0],s[0][0],v[0][0]]).reshape(1,-1))
+    
+    if (colorPred[0]==6):
+        return "white"
+    elif (colorPred[0]==1):
+        return "yellow"
+    elif (colorPred[0]==2):
+        return "blue"
+    elif (colorPred[0]==3):
+        return "red"
+    elif (colorPred[0]==4):
+        return "green"
+    elif (colorPred[0]==5):
+        return "orange"
+    else:
+        return "grey"
+    
+    """
     if (h in range(HSVRange_White[0], HSVRange_White[1])) and (s in range(HSVRange_White[2], HSVRange_White[3])) and (v in range(HSVRange_White[4], HSVRange_White[5])):
         return "white"
     elif (h in range(HSVRange_Yellow[0], HSVRange_Yellow[1])) and (s in range(HSVRange_Yellow[2], HSVRange_Yellow[3])) and (v in range(HSVRange_Yellow[4], HSVRange_Yellow[5])):
@@ -52,6 +63,7 @@ def color(bgrtuple):
         return "orange"
     else:
         return "grey"
+    """
     
     # #if (r >100 and  r*1.3> g > r*0.9 and r*0.9>b>r*0.7):
     # if (-60 < r-g < 60 and 55<r-b<105):
@@ -69,7 +81,21 @@ def color(bgrtuple):
     #     return "white"
     # else:
     #     return "grey"
-def detect_face(bgr_image_input, contours,bgrlist):  # 检测面
+
+#获取中心颜色的HSV
+def getCenterHSV(bgrlist):
+    bgrtuple = list(tuple(bgrlist[4]))
+    
+    b = bgrtuple[0]
+    g = bgrtuple[1]
+    r = bgrtuple[2]
+    
+    imgBGR=np.dstack([b,g,r])
+    hsv_image_input = cv2.cvtColor(imgBGR.astype(np.uint8), COLOR_BGR2HSV)
+    h,s,v=cv2.split(hsv_image_input)
+    return h,s,v
+
+def detect_face(bgr_image_input, contours,bgrlist,knn):  # 检测面
     i = 0
     contour_id = 0
     face = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0])
@@ -79,13 +105,12 @@ def detect_face(bgr_image_input, contours,bgrlist):  # 检测面
         result_string = ["hi" for face in range(9)]
         running = 0
         while (running < 9):
-            bgrstring = bgrlist[running]
             try:
                 blob_colors[running][4]=bgrstring[3]
                 blob_colors[running][5]=bgrstring[4]
             except:
                 pass
-            result_string[running] = color(tuple(bgrstring))
+            result_string[running] = color(bgrlist,knn)
             running = running+1
         for i in range(0,9):  # 比较HSV颜色值分辨颜色
             if(result_string[i] == "white"):
@@ -237,12 +262,6 @@ def draw_stickers(frame, face, offset_x, offset_y):
             )
     return frame
 
-
-def draw_snapshot_stickers(frame, solution):
-    """Draw the current snapshot state onto the given frame."""
-    y = STICKER_AREA_TILE_SIZE * 3 + STICKER_AREA_TILE_GAP * 2 + STICKER_AREA_OFFSET * 2
-    frame = draw_stickers(frame, solution, STICKER_AREA_OFFSET, y)
-    return frame
 
 MINI_STICKER_AREA_TILE_SIZE = 20
 MINI_STICKER_AREA_TILE_GAP = 3

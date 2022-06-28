@@ -14,6 +14,8 @@ from OpenGL.GLU import *
 from OpenGL.GLUT import *
 from enum import Enum
 from datetime import date, datetime
+from sklearn.model_selection import train_test_split  
+from sklearn.neighbors import KNeighborsClassifier  # 引入KNN分类器
 
 import DrawCube3D
 import Function as Fc
@@ -323,6 +325,8 @@ class CurState(Enum):
     ProgressColor_Done = 6
     Count_Down = 7
     Start = 8
+    CalibrateColors = 9
+    CalibrateColors_Confirm = 10
 
 class CurLayer(Enum):
     Cross = 1
@@ -421,6 +425,11 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         self.pll_step_2 = []
         self.color_s=[[0 for col in range(5)] for face in range(9)]
         self.noCircle=False
+        self.CalibrateEnd=False
+        self.colorX = [[0 for col in range(3)] for face in range(186)]
+        self.colorY = np.zeros(186,dtype=np.uint8)
+        self.index = 0
+        self.knn = KNeighborsClassifier()  # 调用KNN分类器
 
         ####DEBUG
 
@@ -453,9 +462,18 @@ class MyWidget(QMainWindow,Ui_MainWindow):
             self.ui.Text10_Notification.show()
             self.ui.Text5_Resolution.show()
             self.ui.Text12_NamePair.show()
-            self.curState = CurState.OriginalColor_Detect
+            self.curState = CurState.CalibrateColors
             self.CountDown_Flag = True
             self.start_time = datetime.now()
+        if((self.CountDown_Flag == False or self.CalibrateEnd == True) and self.curState == CurState.CalibrateColors_Confirm):
+            if(self.CalibrateEnd==False):
+                self.curState = CurState.CalibrateColors
+                self.CountDown_Flag = True
+                self.start_time = datetime.now()
+            else:
+                self.CountDown_Flag = False
+                self.curState = CurState.OriginalColor_Detect
+                self.ui.Text3_Instruction.setText("颜色校准完成")
         if(self.CountDown_Flag == False and self.curState == CurState.OriginalColor_Confirm and self.CenterCorret_Flag == True):
             if(self.curDetect <= 5):
                 self.curState = CurState.OriginalColor_Detect
@@ -613,10 +631,41 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                 self.CountDown_Flag = False
         else:
             self.ui.Text4_CountDown.close()
+            
+        #校准颜色
+        if(self.CountDown_Flag == False and self.curState == CurState.CalibrateColors):
+            if(self.curDetect>=7):
+                self.knn.fit(self.colorX, self.colorY)  # 训练KNN分类器
+                self.curDetect = 1
+                self.CalibrateEnd = True
+                self.curState = CurState.OriginalColor_Detect
+            if (recnum != 9):
+                pass      
+            elif(self.curDetect<7):
+                if(self.index<=30):
+                    h,s,v=Fc.getCenterHSV(self.color_s)
+                    print([h[0][0],s[0][0],v[0][0]])
+                    t = (self.curDetect-1) * 30 + self.index
+                    self.colorX[t] = [h[0][0],s[0][0],v[0][0]]
+                    self.colorY[t] = self.curDetect
+                    self.index += 1
+                    print(self.index)
+                    print(self.colorX[t])
+
+                if(self.index>30):
+                    self.curState = CurState.CalibrateColors_Confirm
+                    self.curDetect += 1
+        #确认校准
+        if(self.CountDown_Flag == False and self.curState == CurState.CalibrateColors_Confirm):
+            self.ui.Text3_Instruction.setText("校准完毕，点击确认进行下一面的颜色校准")
+            self.ui.Text3_Instruction.setStyleSheet('''font-family:DengXian;color: red;font-size = 24pt;''')
+            self.color_s =[[0 for col in range(5)] for face in range(9)]
+            self.index=0
+            
         #初始识别
         if(self.CountDown_Flag == False and self.curState == CurState.OriginalColor_Detect):
             image_output1,contours = ImgInput.DrawContours(image_output)
-            facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s)
+            facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s,self.knn)
             self.faces = facesList
             if(self.DetecteDone_Flag):
                 # print(self.Cube2D.up_face)
@@ -635,7 +684,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         #初始确认
         if(self.CountDown_Flag == False and self.curState == CurState.OriginalColor_Confirm):
             image_output1,contours = ImgInput.DrawContours(bgr_image_input)
-            self.color_s =[[0 for col in range(3)] for face in range(9)]
+            self.color_s =[[0 for col in range(5)] for face in range(9)]
             if(self.curDetect <=6):
                 if(self.CenterCorret_Flag == True):
                     self.ui.Text3_Instruction.setText("请确认识别结果")
@@ -883,6 +932,22 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                 text = '展示中心块为白色的Down面（蓝色中心块朝上） 6/6'
             else:
                 text = '识别完毕'
+            self.ui.Text3_Instruction.setText(text)
+        elif(self.curState == CurState.CalibrateColors):
+            if(curDetect == 1):
+                text = '展示中心块为黄色的Up面 1/6'
+            elif(curDetect == 2):
+                text = '展示中心块为蓝色的Front面 2/6'
+            elif(curDetect == 3):
+                text = '展示中心块为红色的Right面 3/6'
+            elif(curDetect == 4):
+                text = '展示中心块为绿色的Back面 4/6'
+            elif(curDetect == 5):
+                text = '展示中心块为橙色的Left面 5/6'
+            elif(curDetect == 6):
+                text = '展示中心块为白色的Down面 6/6'
+            else:
+                text = '展示中心块为黄色的Up面（绿色中心块朝上） 1/6'
             self.ui.Text3_Instruction.setText(text)
     def setNamepair(self,Cube2D):
         CenterColor = [Cube2D.mu,Cube2D.md,Cube2D.ml,Cube2D.mr,Cube2D.mf,Cube2D.mb]

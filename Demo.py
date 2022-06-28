@@ -14,7 +14,7 @@ from OpenGL.GLU import *
 from OpenGL.GLUT import *
 from enum import Enum
 from datetime import date, datetime
-from sklearn.model_selection import train_test_split  
+from sklearn import tree
 from sklearn.neighbors import KNeighborsClassifier  # 引入KNN分类器
 
 import DrawCube3D
@@ -429,7 +429,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         self.colorX = [[0 for col in range(3)] for face in range(186)]
         self.colorY = np.zeros(186,dtype=np.uint8)
         self.index = 0
-        self.knn = KNeighborsClassifier()  # 调用KNN分类器
+        self.tree = tree.DecisionTreeClassifier()  # 调用分类器
 
         ####DEBUG
 
@@ -635,7 +635,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         #校准颜色
         if(self.CountDown_Flag == False and self.curState == CurState.CalibrateColors):
             if(self.curDetect>=7):
-                self.knn.fit(self.colorX, self.colorY)  # 训练KNN分类器
+                self.tree.fit(self.colorX, self.colorY)  # 训练KNN分类器
                 self.curDetect = 1
                 self.CalibrateEnd = True
                 self.curState = CurState.OriginalColor_Detect
@@ -665,7 +665,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         #初始识别
         if(self.CountDown_Flag == False and self.curState == CurState.OriginalColor_Detect):
             image_output1,contours = ImgInput.DrawContours(image_output)
-            facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s,self.knn)
+            facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s,self.tree)
             self.color_s =[[0 for col in range(5)] for face in range(9)]
             self.faces = facesList
             if(self.DetecteDone_Flag):
@@ -749,7 +749,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                     self.NextMove_Flag = False
                 image_output1,contours = ImgInput.DrawContours(bgr_image_input)
                 # is_ok, bgr_image_input = self.cap.read()
-                facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s,self.knn)
+                facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s,self.tree)
                 self.color_s =[[0 for col in range(5)] for face in range(9)]
                 self.faces = facesList
                 if(self.DetecteDone_Flag):

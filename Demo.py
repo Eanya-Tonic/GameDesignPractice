@@ -5,16 +5,16 @@ import cv2
 import math
 import numpy as np
 from PySide2 import QtGui,QtCore,QtWidgets
-from PySide2.QtWidgets import QApplication, QWidget,QMainWindow
+from PySide2.QtWidgets import QApplication, QWidget,QMainWindow,QLabel
 from PySide2.QtCore import QTimer,QDateTime,QRect,Slot,QObject,SIGNAL,Signal
 from PySide2 import QtOpenGL
+from PySide2.QtGui import QMouseEvent
 from MainWindowUI import Ui_MainWindow
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 from enum import Enum
 from datetime import date, datetime
-from sklearn.model_selection import train_test_split  
 from sklearn.neighbors import KNeighborsClassifier  # 引入KNN分类器
 
 import DrawCube3D
@@ -343,9 +343,54 @@ class Solvemethod(Enum):
     K_method = 1
     Beginner_method = 2
 
+labelSig = 0
+clickFlag = False
+
+class LabelDrawSticker(QLabel):  ##重写自己的QLabel
+    global labelSig,clickFlag
+    def __int__(self, parent=None):
+        QLabel.__init__(self,parent)
+    def mousePressEvent(self, QMouseEvent):  ##单击事件
+        global labelSig,clickFlag
+        if QMouseEvent.buttons() == QtCore.Qt.LeftButton:   ##判断是否鼠标左键点击
+            clickFlag = False
+            pos = QMouseEvent.pos()
+            x,y = pos.x(), pos.y()
+            if(x in range(0,66)):
+                if(y in range(0,66)):
+                    labelSig = 1
+                    clickFlag = True
+                elif(y in range(67,132)):
+                    labelSig = 4
+                    clickFlag = True
+                elif(y in range(133,200)):
+                    labelSig = 7
+                    clickFlag = True
+            elif(x in range(67,132)):
+                if(y in range(0,66)):
+                    labelSig = 2
+                    clickFlag = True
+                elif(y in range(67,132)):
+                    labelSig = 5
+                    clickFlag = True
+                elif(y in range(133,200)):
+                    labelSig = 8
+                    clickFlag = True
+            elif(x in range(133,200)):
+                if(y in range(0,66)):
+                    labelSig = 3
+                    clickFlag = True
+                elif(y in range(67,132)):
+                    labelSig = 6
+                    clickFlag = True
+                elif(y in range(133,200)):
+                    labelSig = 9
+                    clickFlag = True
+            if(clickFlag == False):
+                labelSig = 0
+        print(clickFlag)
 
 class MyWidget(QMainWindow,Ui_MainWindow):
-    
     sendCube2D = Signal(object)
     sendStep = Signal(object)
     def restart_program(self):
@@ -360,6 +405,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         self.cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.ui.Label_DrawSticker = LabelDrawSticker(self.ui.Label_DrawSticker)
         self.openGLWidget = MyGLWidget(self.ui.centralwidget)
         self.timer_opengl = QTimer()
         self.ui.Text2_3DModel.raise_()
@@ -551,7 +597,6 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         self.sendStep.connect(self.openGLWidget.receiveStep)
  
     def show_camera(self):
-    
         is_ok, bgr_image_input = self.cap.read()
         bgr_image_input=np.fliplr(bgr_image_input.copy())
         ret,image = self.cap.read()
@@ -686,6 +731,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         if(self.CountDown_Flag == False and self.curState == CurState.OriginalColor_Confirm):
             image_output1,contours = ImgInput.DrawContours(bgr_image_input)
             self.color_s =[[0 for col in range(5)] for face in range(9)]
+            self.detected_face[0]=self.receiveChange(self.detected_face[0])
             if(self.curDetect <=6):
                 if(self.CenterCorret_Flag == True):
                     self.ui.Text3_Instruction.setText("请确认识别结果")
@@ -904,7 +950,27 @@ class MyWidget(QMainWindow,Ui_MainWindow):
             showImage = QtGui.QImage(show.data,show.shape[1],show.shape[0],QtGui.QImage.Format_RGB888)
             self.ui.Label_ImgInput.setPixmap(QtGui.QPixmap.fromImage(showImage))
             self.ui.Label_ImgInput.setScaledContents(True)
-    
+
+    def receiveChange(self,detected_face):
+        global labelSig,clickFlag
+        print(labelSig)
+        if(clickFlag):
+            c = labelSig - 1
+            if(c in range(0,9)):
+                detected_face[c] += 1
+                if(detected_face[c] == 7):
+                    detected_face[c] = 1
+            clickFlag = False
+            print(c)
+            self.Cube2D.DetectFace([detected_face],self.curDetect)
+            for i in range(len(self.Stickers)):
+                if(self.Stickers[i] != detected_face[i]):
+                    self.Stickers[i] = detected_face[i]
+                else:
+                    pass
+            self.sendCube2D.emit(self.Cube2D)
+        return detected_face
+            
     def DrawSticker(self,DrawStickersArea,detected_face):
         Sticker = Fc.draw_stickers(DrawStickersArea,detected_face,0,0)
         Sticker = cv2.cvtColor(Sticker,cv2.COLOR_BGR2RGB)

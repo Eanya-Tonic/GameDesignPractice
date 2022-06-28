@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyc
 
 # C extensions
 *.so
@@ -105,5 +106,3 @@ venv.bak/
 
 # add
 .idea/
-
-/Cube

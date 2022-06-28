@@ -129,8 +129,7 @@ def detect_face(bgr_image_input, contours,bgrlist):  # 检测面
         if np.count_nonzero(face) == 9:
             # print(face)
             # print(blob_colors)
-            face_new = np.array([face[2], face[1], face[0], face[5], face[4], face[3], face[8], face[7], face[6]]) #镜像
-            return face_new, blob_colors
+            return face, blob_colors
         else:
             # print(blob_colors)
             return [0, 0], blob_colors
@@ -150,7 +149,6 @@ def FindContour(bgr_image_input):
     gray = cv2.Canny(gray, 128, 256)
     # gray = cv2.adaptiveThreshold(
     #     gray, 80, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, ADAPTIVE, 7)  # 转灰度
-    cv2.imshow("Output Image", gray)
     try:
         _, contours, hierarchy = cv2.findContours(
             gray, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
@@ -426,5 +424,5 @@ def DrawInstruction(bgr_image_input,blob_colors,condition):
             centroid2 = blob_colors[6]
         point1 = (int(centroid1[4]), int(centroid1[5]))
         point2 = (int(centroid2[4]), int(centroid2[5]))
-        cv2.arrowedLine(bgr_image_input, point2, point1, LINE_COLOR,5, 4, 0, TIP_LENGTH)
+        cv2.arrowedLine(bgr_image_input, point1, point2, LINE_COLOR,5, 4, 0, TIP_LENGTH)
     return bgr_image_input

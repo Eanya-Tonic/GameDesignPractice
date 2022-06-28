@@ -537,7 +537,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         is_ok, bgr_image_input = self.cap.read()
         bgr_image_input=np.fliplr(bgr_image_input.copy())
         ret,image = self.cap.read()
-        image = cv2.flip( image, 1 )
+        image = image
         x,y = image.shape[0:2]
         image = cv2.resize(image, (int(y/2),int(x/2)))
         b,g,r = cv2.split(image)

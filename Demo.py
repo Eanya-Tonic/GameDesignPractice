@@ -943,7 +943,6 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         self.DrawInstructionText(self.curDetect)
         self.timer_camera.start(30)
         
-        
         if(is_ok):
             show = cv2.resize(image_output,(1280,960))
             show = cv2.cvtColor(show,cv2.COLOR_BGR2RGB)

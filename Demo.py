@@ -727,7 +727,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
             self.ui.Button_Kociemba.close()
             self.ui.Text15_Chosemethod.close()
         #倒计时
-        if(self.CountDown_Flag):
+        if(self.CountDown_Flag and self.curState != CurState.ProgressColor_Detect):
             self.ui.Text4_CountDown.show()
             if (datetime.now() - self.start_time).total_seconds() < 1:
                 self.ui.Text4_CountDown.setText('3')
@@ -737,6 +737,11 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                 self.ui.Text4_CountDown.setText('1')
             elif (datetime.now() - self.start_time).total_seconds()>3:
                 self.ui.Text4_CountDown.setText('')
+                self.CountDown_Flag = False
+        elif(self.curState == CurState.ProgressColor_Detect):
+            if (datetime.now() - self.start_time).total_seconds() < 1:
+                pass
+            elif 1 < (datetime.now() - self.start_time).total_seconds() < 2:
                 self.CountDown_Flag = False
         else:
             self.ui.Text4_CountDown.close()

@@ -109,12 +109,14 @@ def process(image):
     #Process an bgr image to binary 
     #kernel = np.ones((3,3),np.uint8) this is an alternative way to create kernel
     image = cv2.convertScaleAbs(image,alpha=1.5,beta=0)
+    #cv2.imshow("img",image)
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(2,2))
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) #Corresponding grayscale image to the input
     binary = cv2.adaptiveThreshold(gray,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY_INV,11,5) 
     binary_blurred = cv2.medianBlur(binary,5)
-    binary_dilated = cv2.dilate(binary_blurred,kernel,iterations = 5)
+    binary_dilated = cv2.dilate(binary_blurred,kernel,iterations = 10)
     binary_inv = 255 - binary_dilated
+    #cv2.imshow("binary",binary_inv)
     
     return binary_inv
 

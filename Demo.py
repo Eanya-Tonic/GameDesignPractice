@@ -15,6 +15,7 @@ from OpenGL.GLU import *
 from OpenGL.GLUT import *
 from enum import Enum
 from datetime import date, datetime
+import random
 from sklearn.neighbors import KNeighborsClassifier  # 引入KNN分类器
 
 import DrawCube3D
@@ -417,6 +418,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         self.MyInit()
         self.slot_init()
         self.MySetStyles()
+        self.addSolidColors()
 
         # self.loadGLTextures()
         self.openGLWidget.setObjectName(u"openGLWidget")
@@ -472,8 +474,8 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         self.color_s=[[0 for col in range(5)] for face in range(9)]
         self.noCircle=False
         self.CalibrateEnd=False
-        self.colorX = [[0 for col in range(3)] for face in range(186)]
-        self.colorY = np.zeros(186,dtype=np.uint8)
+        self.colorX = [[0 for col in range(3)] for face in range(282)]
+        self.colorY = np.zeros(282,dtype=np.uint8)
         self.index = 0
         self.knn = KNeighborsClassifier()  # 调用KNN分类器
 
@@ -595,7 +597,66 @@ class MyWidget(QMainWindow,Ui_MainWindow):
 
         self.sendCube2D.connect(self.openGLWidget.receiveCube)
         self.sendStep.connect(self.openGLWidget.receiveStep)
- 
+        
+    def addSolidColors(self):
+        random.seed()
+        HSVRange_Yellow = [26, 37, 43, 256, 46, 256]
+        HSVRange_Red = [-1, 8, 43, 256, 46, 256]
+        HSVRange_Red2 = [156, 180, 43, 256, 46, 256]
+        HSVRange_Green = [55, 80, 43, 256, 46, 256]
+        HSVRange_Orange = [8, 25, 43, 256, 46, 256]
+        HSVRange_Blue = [90, 124, 43, 256, 46, 256]
+        HSVRange_White = [0, 180, 0, 60, 150, 256]
+        for i in range(1,7):
+            for j in range(16):
+                if(i == 1):
+                    h=random.randint(HSVRange_Yellow[0], HSVRange_Yellow[1])
+                    s=random.randint(HSVRange_Yellow[2], HSVRange_Yellow[3])
+                    v=random.randint(HSVRange_Yellow[4], HSVRange_Yellow[5])
+                    t=186 + (i-1)*15 + j
+                    self.colorX[t] = [h,s,v]
+                    self.colorY[t] = i
+                if(i == 2):
+                    h=random.randint(HSVRange_Blue[0], HSVRange_Blue[1])
+                    s=random.randint(HSVRange_Blue[2], HSVRange_Blue[3])
+                    v=random.randint(HSVRange_Blue[4], HSVRange_Blue[5])
+                    t=186 + (i-1)*15 + j
+                    self.colorX[t] = [h,s,v]
+                    self.colorY[t] = i
+                if(i == 3):
+                    if(j<8):
+                        h=random.randint(HSVRange_Red[0], HSVRange_Red[1])
+                        s=random.randint(HSVRange_Red[2], HSVRange_Red[3])
+                        v=random.randint(HSVRange_Red[4], HSVRange_Red[5])
+                    else:
+                        h=random.randint(HSVRange_Red2[0], HSVRange_Red2[1])
+                        s=random.randint(HSVRange_Red2[2], HSVRange_Red2[3])
+                        v=random.randint(HSVRange_Red2[4], HSVRange_Red2[5])
+                    t=186 + (i-1)*15 + j
+                    self.colorX[t] = [h,s,v]
+                    self.colorY[t] = i
+                if(i == 4):
+                    h=random.randint(HSVRange_Green[0], HSVRange_Green[1])
+                    s=random.randint(HSVRange_Green[2], HSVRange_Green[3])
+                    v=random.randint(HSVRange_Green[4], HSVRange_Green[5])
+                    t=186 + (i-1)*15 + j
+                    self.colorX[t] = [h,s,v]
+                    self.colorY[t] = i
+                if(i == 5):
+                    h=random.randint(HSVRange_Orange[0], HSVRange_Orange[1])
+                    s=random.randint(HSVRange_Orange[2], HSVRange_Orange[3])
+                    v=random.randint(HSVRange_Orange[4], HSVRange_Orange[5])
+                    t=186 + (i-1)*15 + j
+                    self.colorX[t] = [h,s,v]
+                    self.colorY[t] = i
+                if(i == 6):
+                    h=random.randint(HSVRange_White[0], HSVRange_White[1])
+                    s=random.randint(HSVRange_White[2], HSVRange_White[3])
+                    v=random.randint(HSVRange_White[4], HSVRange_White[5])
+                    t=186 + (i-1)*15 + j
+                    self.colorX[t] = [h,s,v]
+                    self.colorY[t] = i
+
     def show_camera(self):
         is_ok, bgr_image_input = self.cap.read()
         bgr_image_input=np.fliplr(bgr_image_input.copy())

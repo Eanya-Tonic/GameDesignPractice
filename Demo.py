@@ -604,7 +604,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         HSVRange_Red = [-1, 8, 43, 256, 46, 256]
         HSVRange_Red2 = [156, 180, 43, 256, 46, 256]
         HSVRange_Green = [55, 80, 43, 256, 46, 256]
-        HSVRange_Orange = [8, 25, 43, 256, 46, 256]
+        HSVRange_Orange = [11, 25, 43, 256, 46, 256]
         HSVRange_Blue = [90, 124, 43, 256, 46, 256]
         HSVRange_White = [0, 180, 0, 60, 150, 256]
         for i in range(1,7):

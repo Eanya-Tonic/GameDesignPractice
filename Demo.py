@@ -689,8 +689,8 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                 x2=approx[(approx.shape[0]-2),0,0] #X coordinate of the bottom right corner
                 y2=approx[(approx.shape[0]-2),0,1] 
                 
-                xavg = int((x1+x2)/2)
-                yavg = int((y1+y2)/2)
+                xavg = int((x1+x2)/2)-4
+                yavg = int((y1+y2)/2)-4
 
                 if (recnum > 9):
                     break

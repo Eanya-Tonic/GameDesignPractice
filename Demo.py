@@ -108,6 +108,7 @@ def ev(img,x,y,layer): #Evaluates the average value inside a rectangle of one co
 def process(image):
     #Process an bgr image to binary 
     #kernel = np.ones((3,3),np.uint8) this is an alternative way to create kernel
+    image = cv2.convertScaleAbs(image,alpha=1.5,beta=0)
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(2,2))
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) #Corresponding grayscale image to the input
     binary = cv2.adaptiveThreshold(gray,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY_INV,11,5) 
@@ -600,11 +601,11 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         
     def addSolidColors(self):
         random.seed()
-        HSVRange_Yellow = [26, 37, 43, 256, 46, 256]
+        HSVRange_Yellow = [28, 37, 43, 256, 46, 256]
         HSVRange_Red = [-1, 8, 43, 256, 46, 256]
         HSVRange_Red2 = [156, 180, 43, 256, 46, 256]
         HSVRange_Green = [55, 80, 43, 256, 46, 256]
-        HSVRange_Orange = [11, 25, 43, 256, 46, 256]
+        HSVRange_Orange = [10, 24, 43, 256, 46, 256]
         HSVRange_Blue = [90, 124, 43, 256, 46, 256]
         HSVRange_White = [0, 180, 0, 60, 150, 256]
         for i in range(1,7):

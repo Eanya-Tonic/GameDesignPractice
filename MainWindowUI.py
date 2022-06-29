@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'MainWindow.ui'
+# Form generated from reading UI file 'MainWindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 5.15.2
+# Created by: Qt User Interface Compiler version 5.15.2
 ##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
+# WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
 from PySide2.QtCore import *
@@ -89,13 +89,15 @@ class Ui_MainWindow(object):
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.Text5_Resolution.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.Text5_Resolution.sizePolicy().hasHeightForWidth())
         self.Text5_Resolution.setSizePolicy(sizePolicy)
         font5 = QFont()
         font5.setPointSize(14)
         self.Text5_Resolution.setFont(font5)
         self.Text5_Resolution.setScaledContents(False)
-        self.Text5_Resolution.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
+        self.Text5_Resolution.setAlignment(
+            Qt.AlignLeading | Qt.AlignLeft | Qt.AlignTop)
         self.Text5_Resolution.setWordWrap(True)
         self.Text6_CurStep = QLabel(self.centralwidget)
         self.Text6_CurStep.setObjectName(u"Text6_CurStep")
@@ -116,11 +118,13 @@ class Ui_MainWindow(object):
         self.Text10_Notification = QLabel(self.centralwidget)
         self.Text10_Notification.setObjectName(u"Text10_Notification")
         self.Text10_Notification.setGeometry(QRect(1410, 820, 470, 160))
-        sizePolicy.setHeightForWidth(self.Text10_Notification.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.Text10_Notification.sizePolicy().hasHeightForWidth())
         self.Text10_Notification.setSizePolicy(sizePolicy)
         self.Text10_Notification.setFont(font5)
         self.Text10_Notification.setScaledContents(False)
-        self.Text10_Notification.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
+        self.Text10_Notification.setAlignment(
+            Qt.AlignLeading | Qt.AlignLeft | Qt.AlignTop)
         self.Text10_Notification.setWordWrap(True)
         self.Text8_2DCube = QLabel(self.centralwidget)
         self.Text8_2DCube.setObjectName(u"Text8_2DCube")
@@ -167,7 +171,7 @@ class Ui_MainWindow(object):
         self.Text15_Chosemethod.setLayoutDirection(Qt.LeftToRight)
         self.Text15_Chosemethod.setAutoFillBackground(True)
         self.Text15_Chosemethod.setStyleSheet(u"")
-        self.Text15_Chosemethod.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
+        self.Text15_Chosemethod.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
         self.Text15_Chosemethod.setMargin(21)
         MainWindow.setCentralWidget(self.centralwidget)
         self.Label_DrawBackGround.raise_()
@@ -206,46 +210,64 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Demo", None))
-        self.Text1_Detected.setText(QCoreApplication.translate("MainWindow", u"\u8bc6\u522b\u7ed3\u679c\uff1a", None))
-        self.Text2_3DModel.setText(QCoreApplication.translate("MainWindow", u"3D\u9b54\u65b9\uff1a\uff08\u5de6\u952e\u6309\u4f4f\u8fdb\u884c\u62d6\u62fd\u65cb\u8f6c\uff0c\u53cc\u51fb\u8fd8\u539f\uff09", None))
-        self.Text3_Instruction.setText(QCoreApplication.translate("MainWindow", u"\u63d0\u793a\u4fe1\u606f", None))
-        self.Button_Check.setText(QCoreApplication.translate("MainWindow", u"\u786e\u8ba4", None))
-        self.Button_Retry.setText(QCoreApplication.translate("MainWindow", u"\u91cd\u8bd5", None))
-        self.Button_Restart.setText(QCoreApplication.translate("MainWindow", u"\u91cd\u65b0\u5f00\u59cb", None))
+        MainWindow.setWindowTitle(
+            QCoreApplication.translate("MainWindow", u"Demo", None))
+        self.Text1_Detected.setText(QCoreApplication.translate(
+            "MainWindow", u"\u8bc6\u522b\u7ed3\u679c\uff1a", None))
+        self.Text2_3DModel.setText(QCoreApplication.translate(
+            "MainWindow", u"3D\u9b54\u65b9\uff1a\uff08\u5de6\u952e\u6309\u4f4f\u8fdb\u884c\u62d6\u62fd\u65cb\u8f6c\uff0c\u53cc\u51fb\u8fd8\u539f\uff09", None))
+        self.Text3_Instruction.setText(QCoreApplication.translate(
+            "MainWindow", u"\u63d0\u793a\u4fe1\u606f", None))
+        self.Button_Check.setText(QCoreApplication.translate(
+            "MainWindow", u"\u786e\u8ba4", None))
+        self.Button_Retry.setText(QCoreApplication.translate(
+            "MainWindow", u"\u91cd\u8bd5", None))
+        self.Button_Restart.setText(QCoreApplication.translate(
+            "MainWindow", u"\u91cd\u65b0\u5f00\u59cb", None))
         self.Label_ImgInput.setText("")
-        self.Label_DrawSticker.setText(QCoreApplication.translate("MainWindow", u"\u5f53\u524d\u8bc6\u522b\u7ed3\u679c\u663e\u793a", None))
-        self.Label_DrawAllSticker.setText(QCoreApplication.translate("MainWindow", u"\u7ed8\u52362D\u9b54\u65b9", None))
+        self.Label_DrawSticker.setText(QCoreApplication.translate(
+            "MainWindow", u"\u5f53\u524d\u8bc6\u522b\u7ed3\u679c\u663e\u793a", None))
+        self.Label_DrawAllSticker.setText(QCoreApplication.translate(
+            "MainWindow", u"\u7ed8\u52362D\u9b54\u65b9", None))
         self.Text4_CountDown.setText("")
         self.Text0_Welcome.setText(QCoreApplication.translate("MainWindow", u"\u6b22\u8fce\u4f7f\u7528\u9b54\u65b9\u6559\u5b66\u7cfb\u7edf\uff01\n"
-"1.\u8bf7\u5728\u660e\u4eae\u7684\u81ea\u7136\u73af\u5883\u5149\u4e0b\u8bc6\u522b\u9b54\u65b9\n"
-"2.\u8bf7\u786e\u4fdd\u6444\u50cf\u673a\u8fde\u63a5\u6b63\u786e\uff0c\u5e76\u5c06\u6444\u50cf\u673a\u5e73\u653e\u5728\u684c\u9762\u4e0a\uff0c\u955c\u5934\u671d\u5411\u6b63\u524d\u65b9\n"
-"3.\u8bf7\u6ce8\u610f\u9605\u8bfb\u753b\u9762\u4e0a\u65b9\u7684\u6307\u793a\u63d0\u793a\n"
-"4.\u5982\u679c\u8fd8\u539f\u8fc7\u7a0b\u4e2d\u53d1\u73b0\u81ea\u5df1\u8f6c\u9519\u4e86\u8bf7\u70b9\u51fb\u201c\u91cd\u65b0\u5f00\u59cb\u201d\u6309\u94ae\n"
-"\n"
-"\n"
-"\u70b9\u51fb\u201c\u786e\u8ba4\u201d\u6309\u94ae\u5f00\u59cb\u8bc6\u522b\uff01", None))
+                                                              "1.\u8bf7\u5728\u660e\u4eae\u7684\u81ea\u7136\u73af\u5883\u5149\u4e0b\u8bc6\u522b\u9b54\u65b9\n"
+                                                              "2.\u8bf7\u786e\u4fdd\u6444\u50cf\u673a\u8fde\u63a5\u6b63\u786e\uff0c\u5e76\u5c06\u6444\u50cf\u673a\u5e73\u653e\u5728\u684c\u9762\u4e0a\uff0c\u955c\u5934\u671d\u5411\u6b63\u524d\u65b9\n"
+                                                              "3.\u8bf7\u6ce8\u610f\u9605\u8bfb\u753b\u9762\u4e0a\u65b9\u7684\u6307\u793a\u63d0\u793a\n"
+                                                              "4.\u5982\u679c\u8fd8\u539f\u8fc7\u7a0b\u4e2d\u53d1\u73b0\u81ea\u5df1\u8f6c\u9519\u4e86\u8bf7\u70b9\u51fb\u201c\u91cd\u65b0\u5f00\u59cb\u201d\u6309\u94ae\n"
+                                                              "\n"
+                                                              "\n"
+                                                              "\u70b9\u51fb\u201c\u786e\u8ba4\u201d\u6309\u94ae\u5f00\u59cb\u8bc6\u522b\uff01", None))
         self.Text5_Resolution.setText("")
-        self.Text6_CurStep.setText(QCoreApplication.translate("MainWindow", u"\u5f53\u524d\u6b65\u9aa4\uff1a", None))
-        self.Text7_NextStep.setText(QCoreApplication.translate("MainWindow", u"\u4e0b\u4e00\u6b65\u9aa4\uff1a", None))
-        self.Text9_Judge.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.Text6_CurStep.setText(QCoreApplication.translate(
+            "MainWindow", u"\u5f53\u524d\u6b65\u9aa4\uff1a", None))
+        self.Text7_NextStep.setText(QCoreApplication.translate(
+            "MainWindow", u"\u4e0b\u4e00\u6b65\u9aa4\uff1a", None))
+        self.Text9_Judge.setText(QCoreApplication.translate(
+            "MainWindow", u"TextLabel", None))
         self.Text10_Notification.setText("")
-        self.Text8_2DCube.setText(QCoreApplication.translate("MainWindow", u"2D\u5c55\u5f00\u56fe\uff1a", None))
-        self.Text11_DetectResult.setText(QCoreApplication.translate("MainWindow", u"\u5f53\u524d\u8bc6\u522b\u7ed3\u679c\uff1a", None))
+        self.Text8_2DCube.setText(QCoreApplication.translate(
+            "MainWindow", u"2D\u5c55\u5f00\u56fe\uff1a", None))
+        self.Text11_DetectResult.setText(QCoreApplication.translate(
+            "MainWindow", u"\u5f53\u524d\u8bc6\u522b\u7ed3\u679c\uff1a", None))
         self.Label_DrawBackGround.setText("")
-        self.Text2_Video.setText(QCoreApplication.translate("MainWindow", u"\u89c6\u9891\u753b\u9762\uff1a", None))
+        self.Text2_Video.setText(QCoreApplication.translate(
+            "MainWindow", u"\u89c6\u9891\u753b\u9762\uff1a", None))
         self.Text12_NamePair.setText(QCoreApplication.translate("MainWindow", u"U-Up\uff08\u4e0a\uff0c\u9ec4\u8272\uff09\n"
-"D-Down\uff08\u4e0b\uff0c\u767d\u8272\uff09\n"
-"L-Left\uff08\u5de6\uff0c\u6a59\u8272\uff09\n"
-"R-Right\uff08\u53f3\uff0c\u7ea2\u8272\uff09\n"
-"F-Front\uff08\u524d\uff0c\u84dd\u8272\uff09\n"
-"B-Back\uff08\u540e\uff0c\u7eff\u8272\uff09", None))
-        self.Text13_CurLayer.setText(QCoreApplication.translate("MainWindow", u"\u5f53\u524d\u6b63\u5728\u8fdb\u884c\uff1a", None))
-        self.Text14_CurFormula.setText(QCoreApplication.translate("MainWindow", u"\u4f7f\u7528\u7684\u8fd8\u539f\u516c\u5f0f\uff1a", None))
-        self.Button_Beginner.setText(QCoreApplication.translate("MainWindow", u"\u521d\u5b66\u8005\u6a21\u5f0f", None))
-        self.Button_Kociemba.setText(QCoreApplication.translate("MainWindow", u"\u5feb\u901f\u8fd8\u539f\u6a21\u5f0f", None))
+                                                                "D-Down\uff08\u4e0b\uff0c\u767d\u8272\uff09\n"
+                                                                "L-Left\uff08\u5de6\uff0c\u6a59\u8272\uff09\n"
+                                                                "R-Right\uff08\u53f3\uff0c\u7ea2\u8272\uff09\n"
+                                                                "F-Front\uff08\u524d\uff0c\u84dd\u8272\uff09\n"
+                                                                "B-Back\uff08\u540e\uff0c\u7eff\u8272\uff09", None))
+        self.Text13_CurLayer.setText(QCoreApplication.translate(
+            "MainWindow", u"\u5f53\u524d\u6b63\u5728\u8fdb\u884c\uff1a", None))
+        self.Text14_CurFormula.setText(QCoreApplication.translate(
+            "MainWindow", u"\u4f7f\u7528\u7684\u8fd8\u539f\u516c\u5f0f\uff1a", None))
+        self.Button_Beginner.setText(QCoreApplication.translate(
+            "MainWindow", u"\u521d\u5b66\u8005\u6a21\u5f0f", None))
+        self.Button_Kociemba.setText(QCoreApplication.translate(
+            "MainWindow", u"\u5feb\u901f\u8fd8\u539f\u6a21\u5f0f", None))
         self.Text15_Chosemethod.setText(QCoreApplication.translate("MainWindow", u"\u8bf7\u9009\u62e9\u8981\u4f7f\u7528\u7684\u8fd8\u539f\u65b9\u6cd5\uff1a\n"
-"\u521d\u5b66\u8005\u6a21\u5f0f\uff1a\u4f7f\u7528\u5c42\u5148\u6cd5\uff0c\u5957\u7528\u516c\u5f0f\u8fd8\u539f\n"
-"\u5feb\u901f\u8fd8\u539f\u6a21\u5f0f\uff1a\u4f7f\u7528\u8ba1\u7b97\u673a\u7b97\u6cd5\uff0c\u6700\u77ed\u6b65\u9aa4\u8fd8\u539f", None))
+                                                                   "\u521d\u5b66\u8005\u6a21\u5f0f\uff1a\u4f7f\u7528\u5c42\u5148\u6cd5\uff0c\u5957\u7528\u516c\u5f0f\u8fd8\u539f\n"
+                                                                   "\u5feb\u901f\u8fd8\u539f\u6a21\u5f0f\uff1a\u4f7f\u7528\u8ba1\u7b97\u673a\u7b97\u6cd5\uff0c\u6700\u77ed\u6b65\u9aa4\u8fd8\u539f", None))
     # retranslateUi
-

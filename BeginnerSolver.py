@@ -8,9 +8,10 @@ from Cube.Solver import beginners
 import time
 import math
 
+
 def ChangeForm(cube2D):
     up = ''
-    front =''
+    front = ''
     right = ''
     back = ''
     left = ''
@@ -28,7 +29,7 @@ def ChangeForm(cube2D):
             up += 'o'
         elif color == 6:
             up += 'y'
-    
+
     for color in cube2D.front_face:
         if color == 1:
             front += 'w'
@@ -98,8 +99,8 @@ def ChangeForm(cube2D):
             down += 'o'
         elif color == 6:
             down += 'y'
-    
-    CubeString = [up,left,front,right,back,down]
+
+    CubeString = [up, left, front, right, back, down]
     BeginnerCube = Cube(''.join(CubeString))
     # print(cube)
     # solution = beginners.solve(cube)
@@ -109,9 +110,11 @@ def ChangeForm(cube2D):
     # print(f'solution: {solution}')
     return BeginnerCube
 
+
 def solveCube_BeginnerSolver(cube):
     BeginnerCube = ChangeForm(cube)
-    solve_cross,solve_corners,solve_second_layer,oll_step_1,oll_step_2,pll_step_1,pll_step_2,res = solver.__solve_3x3(BeginnerCube)
+    solve_cross, solve_corners, solve_second_layer, oll_step_1, oll_step_2, pll_step_1, pll_step_2, res = solver.__solve_3x3(
+        BeginnerCube)
     BeginnerCube.sequence(res)
     solve_cross = str.split(solve_cross)
     solve_corners = str.split(solve_corners)
@@ -121,5 +124,5 @@ def solveCube_BeginnerSolver(cube):
     pll_step_1 = str.split(pll_step_1)
     pll_step_2 = str.split(pll_step_2)
     solution = str.split(res)
-    return solve_cross,solve_corners,solve_second_layer,oll_step_1,oll_step_2,pll_step_1,pll_step_2,res,solution
+    return solve_cross, solve_corners, solve_second_layer, oll_step_1, oll_step_2, pll_step_1, pll_step_2, res, solution
     # print(f'solution: {res}')

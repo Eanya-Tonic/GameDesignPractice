@@ -32,91 +32,93 @@ axis_colors = (
  0___________3/
 '''
 
+
 def padding(pad_val):
     for vertex in center_pieces[0]:
-        vertex[2]+=pad_val
+        vertex[2] += pad_val
     for vertex in center_pieces[1]:
-        vertex[0]-=pad_val
+        vertex[0] -= pad_val
     for vertex in center_pieces[2]:
-        vertex[2]-=pad_val
+        vertex[2] -= pad_val
     for vertex in center_pieces[3]:
-        vertex[0]+=pad_val
+        vertex[0] += pad_val
     for vertex in center_pieces[4]:
-        vertex[1]+=pad_val
+        vertex[1] += pad_val
     for vertex in center_pieces[5]:
-        vertex[1]-=pad_val
+        vertex[1] -= pad_val
 
     for vertex in edge_pieces[0][0]:
-        vertex[1]-=pad_val
-        vertex[2]+=pad_val
+        vertex[1] -= pad_val
+        vertex[2] += pad_val
     for vertex in edge_pieces[0][1]:
-        vertex[1]+=pad_val
-        vertex[2]+=pad_val
+        vertex[1] += pad_val
+        vertex[2] += pad_val
     for vertex in edge_pieces[0][2]:
-        vertex[1]+=pad_val
-        vertex[2]-=pad_val
+        vertex[1] += pad_val
+        vertex[2] -= pad_val
     for vertex in edge_pieces[0][3]:
-        vertex[1]-=pad_val
-        vertex[2]-=pad_val
+        vertex[1] -= pad_val
+        vertex[2] -= pad_val
 
     for vertex in edge_pieces[1][0]:
-        vertex[0]-=pad_val
-        vertex[2]+=pad_val
+        vertex[0] -= pad_val
+        vertex[2] += pad_val
     for vertex in edge_pieces[1][1]:
-        vertex[0]-=pad_val
-        vertex[2]-=pad_val
+        vertex[0] -= pad_val
+        vertex[2] -= pad_val
     for vertex in edge_pieces[1][2]:
-        vertex[0]+=pad_val
-        vertex[2]-=pad_val
+        vertex[0] += pad_val
+        vertex[2] -= pad_val
     for vertex in edge_pieces[1][3]:
-        vertex[0]+=pad_val
-        vertex[2]+=pad_val
+        vertex[0] += pad_val
+        vertex[2] += pad_val
 
     for vertex in edge_pieces[2][0]:
-        vertex[0]-=pad_val
-        vertex[1]-=pad_val
+        vertex[0] -= pad_val
+        vertex[1] -= pad_val
     for vertex in edge_pieces[2][1]:
-        vertex[0]-=pad_val
-        vertex[1]+=pad_val
+        vertex[0] -= pad_val
+        vertex[1] += pad_val
     for vertex in edge_pieces[2][2]:
-        vertex[0]+=pad_val
-        vertex[1]+=pad_val
+        vertex[0] += pad_val
+        vertex[1] += pad_val
     for vertex in edge_pieces[2][3]:
-        vertex[0]+=pad_val
-        vertex[1]-=pad_val
+        vertex[0] += pad_val
+        vertex[1] -= pad_val
 
     for vertex in corner_pieces[0]:
-        vertex[0]-=pad_val
-        vertex[1]-=pad_val
-        vertex[2]+=pad_val
+        vertex[0] -= pad_val
+        vertex[1] -= pad_val
+        vertex[2] += pad_val
     for vertex in corner_pieces[1]:
-        vertex[0]-=pad_val
-        vertex[1]+=pad_val
-        vertex[2]+=pad_val
+        vertex[0] -= pad_val
+        vertex[1] += pad_val
+        vertex[2] += pad_val
     for vertex in corner_pieces[2]:
-        vertex[0]+=pad_val
-        vertex[1]+=pad_val
-        vertex[2]+=pad_val
+        vertex[0] += pad_val
+        vertex[1] += pad_val
+        vertex[2] += pad_val
     for vertex in corner_pieces[3]:
-        vertex[0]+=pad_val
-        vertex[1]-=pad_val
-        vertex[2]+=pad_val
+        vertex[0] += pad_val
+        vertex[1] -= pad_val
+        vertex[2] += pad_val
     for vertex in corner_pieces[4]:
-        vertex[0]-=pad_val
-        vertex[1]-=pad_val
-        vertex[2]-=pad_val
+        vertex[0] -= pad_val
+        vertex[1] -= pad_val
+        vertex[2] -= pad_val
     for vertex in corner_pieces[5]:
-        vertex[0]-=pad_val
-        vertex[1]+=pad_val
-        vertex[2]-=pad_val
+        vertex[0] -= pad_val
+        vertex[1] += pad_val
+        vertex[2] -= pad_val
     for vertex in corner_pieces[6]:
-        vertex[0]+=pad_val
-        vertex[1]+=pad_val
-        vertex[2]-=pad_val
+        vertex[0] += pad_val
+        vertex[1] += pad_val
+        vertex[2] -= pad_val
     for vertex in corner_pieces[7]:
-        vertex[0]+=pad_val
-        vertex[1]-=pad_val
-        vertex[2]-=pad_val
+        vertex[0] += pad_val
+        vertex[1] -= pad_val
+        vertex[2] -= pad_val
+
 
 center_pieces = [
     # Up 0

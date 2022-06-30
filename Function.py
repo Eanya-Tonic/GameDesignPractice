@@ -51,43 +51,6 @@ def color(bgrlist, knn):
     else:
         return "grey"
 
-    """
-    if (h in range(HSVRange_White[0], HSVRange_White[1])) and (s in range(HSVRange_White[2], HSVRange_White[3])) and (v in range(HSVRange_White[4], HSVRange_White[5])):
-        return "white"
-    elif (h in range(HSVRange_Yellow[0], HSVRange_Yellow[1])) and (s in range(HSVRange_Yellow[2], HSVRange_Yellow[3])) and (v in range(HSVRange_Yellow[4], HSVRange_Yellow[5])):
-        return "yellow"
-    elif (h in range(HSVRange_Blue[0], HSVRange_Blue[1])) and (s in range(HSVRange_Blue[2], HSVRange_Blue[3])) and (v in range(HSVRange_Blue[4], HSVRange_Blue[5])):
-        return "blue"
-    elif ((h in range(HSVRange_Red[0], HSVRange_Red[1])) or (h in range(HSVRange_Red2[0], HSVRange_Red2[1]))) and (s in range(HSVRange_Red[2], HSVRange_Red[3])) and (v in range(HSVRange_Red[4], HSVRange_Red[5])):
-        return "red"
-    elif (h in range(HSVRange_Green[0], HSVRange_Green[1])) and (s in range(HSVRange_Green[2], HSVRange_Green[3])) and (v in range(HSVRange_Green[4], HSVRange_Green[5])):
-        return "green"
-    elif (h in range(HSVRange_Orange[0], HSVRange_Orange[1])) and (s in range(HSVRange_Orange[2], HSVRange_Orange[3])) and (v in range(HSVRange_Orange[4], HSVRange_Orange[5])):
-        return "orange"
-    else:
-        return "grey"
-    """
-
-    # #if (r >100 and  r*1.3> g > r*0.9 and r*0.9>b>r*0.7):
-    # if (-60 < r-g < 60 and 55<r-b<105):
-    #     return "yellow"
-    # if (r>180 and g<r*0.5 and b< r*0.5):
-    #     return "red"
-    # if (r-g>20 and r-b>20):
-    #     return "orange"
-    # if (g-b>30 and g-r>30):
-    # #if (g>120 and r <120 and b <120):
-    #     return "green"
-    # if (b-r >30 and b - g >30):
-    #     return "blue"
-    # if (g*1.2>r>g*0.8 and g*1.2>b>g*0.8):
-    #     return "white"
-    # else:
-    #     return "grey"
-
-# 获取中心颜色的HSV
-
-
 def getCenterHSV(bgrlist):
     bgrtuple = list(tuple(bgrlist[4]))
 
@@ -101,7 +64,7 @@ def getCenterHSV(bgrlist):
     return h, s, v
 
 
-def detect_face(bgr_image_input, contours, bgrlist, knn):  # 检测面
+def detect_face(bgrlist, knn):  # 检测面
     i = 0
     contour_id = 0
     face = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0])
@@ -139,24 +102,6 @@ def detect_face(bgr_image_input, contours, bgrlist, knn):  # 检测面
                 blob_colors[i][3] = 5
                 face[i] = 5
 
-            # if (blob_colors[i][0] in range(HSVRange_White[0], HSVRange_White[1])) and (blob_colors[i][1] in range(HSVRange_White[2], HSVRange_White[3])) and (blob_colors[i][2] in range(HSVRange_White[4], HSVRange_White[5])):
-            #     blob_colors[i][3] = 6
-            #     face[i] = 6
-            # elif (blob_colors[i][0] in range(HSVRange_Yellow[0], HSVRange_Yellow[1])) and (blob_colors[i][1] in range(HSVRange_Yellow[2], HSVRange_Yellow[3])) and (blob_colors[i][2] in range(HSVRange_Yellow[4], HSVRange_Yellow[5])):
-            #     blob_colors[i][3] = 1
-            #     face[i] = 1
-            # elif (blob_colors[i][0] in range(HSVRange_Blue[0], HSVRange_Blue[1])) and (blob_colors[i][1] in range(HSVRange_Blue[2], HSVRange_Blue[3])) and (blob_colors[i][2] in range(HSVRange_Blue[4], HSVRange_Blue[5])):
-            #     blob_colors[i][3] = 2
-            #     face[i] = 2
-            # elif (blob_colors[i][0] in range(HSVRange_Red[0], HSVRange_Red[1])) and (blob_colors[i][1] in range(HSVRange_Red[2], HSVRange_Red[3])) and (blob_colors[i][2] in range(HSVRange_Red[4], HSVRange_Red[5])):
-            #     blob_colors[i][3] = 3
-            #     face[i] = 3
-            # elif (blob_colors[i][0] in range(HSVRange_Green[0], HSVRange_Green[1])) and (blob_colors[i][1] in range(HSVRange_Green[2], HSVRange_Green[3])) and (blob_colors[i][2] in range(HSVRange_Green[4], HSVRange_Green[5])):
-            #     blob_colors[i][3] = 4
-            #     face[i] = 4
-            # elif (blob_colors[i][0] in range(HSVRange_Orange[0], HSVRange_Orange[1])) and (blob_colors[i][1] in range(HSVRange_Orange[2], HSVRange_Orange[3])) and (blob_colors[i][2] in range(HSVRange_Orange[4], HSVRange_Orange[5])):
-            #     blob_colors[i][3] = 5
-            #     face[i] = 5
         print(face)
         if np.count_nonzero(face) == 9:
             # print(face)
@@ -172,47 +117,6 @@ def detect_face(bgr_image_input, contours, bgrlist, knn):  # 检测面
 
 KERNEL_CORE = 5
 ADAPTIVE = 51
-
-
-def FindContour(bgr_image_input):
-    FinalContours = []
-    gray = cv2.cvtColor(bgr_image_input, cv2.COLOR_BGR2GRAY)  # 转灰度
-    kernel = cv2.getStructuringElement(
-        cv2.MORPH_ELLIPSE, (KERNEL_CORE, KERNEL_CORE))
-    gray = cv2.morphologyEx(gray, cv2.MORPH_OPEN, kernel)
-    gray = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, kernel)
-    gray = cv2.Canny(gray, 128, 256)
-    # gray = cv2.adaptiveThreshold(
-    #     gray, 80, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, ADAPTIVE, 7)  # 转灰度
-    try:
-        _, contours, hierarchy = cv2.findContours(
-            gray, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
-    except:
-        contours, hierarchy = cv2.findContours(
-            gray, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
-    for i, cnt in enumerate(contours):
-        # 如果层级关系中的第三个参数为-1，表示没有下一级第一个子轮廓，那么这个肯定是内轮廓，如果不为-1，则为外轮廓
-        if hierarchy[0][i][2] != -1:
-            FinalContours.append(cnt)
-    contours = FinalContours
-    return contours
-
-
-def DrawContour(bgr_image_input, contours):
-    contour_id = 0
-    for contour in contours:  # 对每一个轮廓的内容进行颜色识别
-        A1 = cv2.contourArea(contour)
-        contour_id = contour_id + 1
-        # cv2.drawContours(bgr_image_input, [contour], 0, (255, 255, 0), 2)
-        if A1 < STICKER_AREA_SIZE_MAX and A1 > STICKER_AREA_SIZE_MIN:
-            perimeter = cv2.arcLength(contour, True)
-            epsilon = 0.01 * perimeter
-            approx = cv2.approxPolyDP(contour, epsilon, True)
-            hull = cv2.convexHull(contour)
-            if cv2.norm(((perimeter / 4) * (perimeter / 4)) - A1) < 500:
-                cv2.drawContours(bgr_image_input, [
-                                 contour], 0, (255, 255, 0), 2)  # 绘制轮廓
-    return bgr_image_input
 
 
 STICKER_AREA_TILE_SIZE = 60

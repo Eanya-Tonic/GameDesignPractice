@@ -6,18 +6,10 @@ import Function as Fc
 DETECT_TIMES = 8
 
 
-def DrawContours(bgr_image_input):
-    contours = Fc.FindContour(bgr_image_input)
-    img = bgr_image_input
-    Output = Fc.DrawContour(img, contours)
-    return Output, contours
-
-
-def DetectFace(faces, bgr_image_input, contours, curDetect, colorString, knn):
+def DetectFace(faces, curDetect, colorString, knn):
     DetectDone_Flag = False
     CenterCorrect_Flag = False
-    img = bgr_image_input
-    face, blob_colors = Fc.detect_face(img, contours, colorString, knn)  # 识别颜色
+    face, blob_colors = Fc.detect_face(colorString, knn)  # 识别颜色
     detected_face = []
     # print(blob_colors)
     if len(face) == 9:  # 识别到九个

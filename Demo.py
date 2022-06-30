@@ -14,7 +14,7 @@ from OpenGL.GLU import *
 from OpenGL.GLUT import *
 from enum import Enum
 from datetime import date, datetime
-from sklearn import tree
+from sklearn.model_selection import train_test_split  
 from sklearn.neighbors import KNeighborsClassifier  # 引入KNN分类器
 import matplotlib.pyplot as plt
 
@@ -316,8 +316,6 @@ def get_average_color(image,image_coordinates):
         running = running +1
     return result_string
 
-<<<<<<< Updated upstream
-=======
 def CurColors(i):
     if (i == 6):
         return "white"
@@ -334,7 +332,6 @@ def CurColors(i):
     else:
         return "grey"
 
->>>>>>> Stashed changes
 class CurState(Enum):
     Pause = 0
     OriginalColor_Detect = 1
@@ -449,12 +446,9 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         self.colorX = [[0 for col in range(3)] for face in range(186)]
         self.colorY = np.zeros(186,dtype=np.uint8)
         self.index = 0
-<<<<<<< Updated upstream
-        self.tree = tree.DecisionTreeClassifier()  # 调用分类器
-=======
         self.knn = KNeighborsClassifier()  # 调用KNN分类器
         self.ax = plt.axes(projection='3d') # 定义三维图表
->>>>>>> Stashed changes
+
 
         ####DEBUG
 
@@ -574,9 +568,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
 
         self.sendCube2D.connect(self.openGLWidget.receiveCube)
         self.sendStep.connect(self.openGLWidget.receiveStep)
-<<<<<<< Updated upstream
- 
-=======
+
 
     def addSolidColors(self):
         random.seed()
@@ -639,7 +631,6 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                 self.ax.scatter3D(h, s, v, c=CurColors(i))
         self.ax.set_title('HSV plot')
 
->>>>>>> Stashed changes
     def show_camera(self):
     
         is_ok, bgr_image_input = self.cap.read()
@@ -725,7 +716,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         #校准颜色
         if(self.CountDown_Flag == False and self.curState == CurState.CalibrateColors):
             if(self.curDetect>=7):
-                self.tree.fit(self.colorX, self.colorY)  # 训练KNN分类器
+                self.knn.fit(self.colorX, self.colorY)  # 训练KNN分类器
                 self.curDetect = 1
                 self.CalibrateEnd = True
                 self.curState = CurState.OriginalColor_Detect
@@ -757,7 +748,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         #初始识别
         if(self.CountDown_Flag == False and self.curState == CurState.OriginalColor_Detect):
             image_output1,contours = ImgInput.DrawContours(image_output)
-            facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s,self.tree)
+            facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s,self.knn)
             self.color_s =[[0 for col in range(5)] for face in range(9)]
             self.faces = facesList
             if(self.DetecteDone_Flag):
@@ -841,7 +832,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                     self.NextMove_Flag = False
                 image_output1,contours = ImgInput.DrawContours(bgr_image_input)
                 # is_ok, bgr_image_input = self.cap.read()
-                facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s,self.tree)
+                facesList,blob_colors,self.DetecteDone_Flag,self.CenterCorret_Flag,self.detected_face = ImgInput.DetectFace(self.faces,bgr_image_input,contours,self.curDetect,self.color_s,self.knn)
                 self.color_s =[[0 for col in range(5)] for face in range(9)]
                 self.faces = facesList
                 if(self.DetecteDone_Flag):

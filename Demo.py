@@ -16,6 +16,7 @@ from enum import Enum
 from datetime import date, datetime
 from sklearn import tree
 from sklearn.neighbors import KNeighborsClassifier  # 引入KNN分类器
+import matplotlib.pyplot as plt
 
 import DrawCube3D
 import Function as Fc
@@ -315,6 +316,25 @@ def get_average_color(image,image_coordinates):
         running = running +1
     return result_string
 
+<<<<<<< Updated upstream
+=======
+def CurColors(i):
+    if (i == 6):
+        return "white"
+    elif (i == 1):
+        return "yellow"
+    elif (i == 2):
+        return "blue"
+    elif (i == 3):
+        return "red"
+    elif (i == 4):
+        return "green"
+    elif (i == 5):
+        return "orange"
+    else:
+        return "grey"
+
+>>>>>>> Stashed changes
 class CurState(Enum):
     Pause = 0
     OriginalColor_Detect = 1
@@ -429,7 +449,12 @@ class MyWidget(QMainWindow,Ui_MainWindow):
         self.colorX = [[0 for col in range(3)] for face in range(186)]
         self.colorY = np.zeros(186,dtype=np.uint8)
         self.index = 0
+<<<<<<< Updated upstream
         self.tree = tree.DecisionTreeClassifier()  # 调用分类器
+=======
+        self.knn = KNeighborsClassifier()  # 调用KNN分类器
+        self.ax = plt.axes(projection='3d') # 定义三维图表
+>>>>>>> Stashed changes
 
         ####DEBUG
 
@@ -549,7 +574,72 @@ class MyWidget(QMainWindow,Ui_MainWindow):
 
         self.sendCube2D.connect(self.openGLWidget.receiveCube)
         self.sendStep.connect(self.openGLWidget.receiveStep)
+<<<<<<< Updated upstream
  
+=======
+
+    def addSolidColors(self):
+        random.seed()
+        HSVRange_Yellow = [30, 37, 220, 256, 220, 256]
+        HSVRange_Red = [-1, 5, 220, 256, 220, 256]
+        HSVRange_Red2 = [156, 180, 220, 256, 220, 256]
+        HSVRange_Green = [55, 80, 220, 256, 220, 256]
+        HSVRange_Orange = [8, 16, 220, 256, 220, 256]
+        HSVRange_Blue = [90, 124, 220, 256, 220, 256]
+        HSVRange_White = [0, 180, 0, 60, 150, 256]
+        for i in range(1, 7):
+            for j in range(16):
+                if(i == 1):
+                    h = random.randint(HSVRange_Yellow[0], HSVRange_Yellow[1])
+                    s = random.randint(HSVRange_Yellow[2], HSVRange_Yellow[3])
+                    v = random.randint(HSVRange_Yellow[4], HSVRange_Yellow[5])
+                    t = 186 + (i-1)*15 + j
+                    self.colorX[t] = [h, s, v]
+                    self.colorY[t] = i
+                if(i == 2):
+                    h = random.randint(HSVRange_Blue[0], HSVRange_Blue[1])
+                    s = random.randint(HSVRange_Blue[2], HSVRange_Blue[3])
+                    v = random.randint(HSVRange_Blue[4], HSVRange_Blue[5])
+                    t = 186 + (i-1)*15 + j
+                    self.colorX[t] = [h, s, v]
+                    self.colorY[t] = i
+                if(i == 3):
+                    if(j < 8):
+                        h = random.randint(HSVRange_Red[0], HSVRange_Red[1])
+                        s = random.randint(HSVRange_Red[2], HSVRange_Red[3])
+                        v = random.randint(HSVRange_Red[4], HSVRange_Red[5])
+                    else:
+                        h = random.randint(HSVRange_Red2[0], HSVRange_Red2[1])
+                        s = random.randint(HSVRange_Red2[2], HSVRange_Red2[3])
+                        v = random.randint(HSVRange_Red2[4], HSVRange_Red2[5])
+                    t = 186 + (i-1)*15 + j
+                    self.colorX[t] = [h, s, v]
+                    self.colorY[t] = i
+                if(i == 4):
+                    h = random.randint(HSVRange_Green[0], HSVRange_Green[1])
+                    s = random.randint(HSVRange_Green[2], HSVRange_Green[3])
+                    v = random.randint(HSVRange_Green[4], HSVRange_Green[5])
+                    t = 186 + (i-1)*15 + j
+                    self.colorX[t] = [h, s, v]
+                    self.colorY[t] = i
+                if(i == 5):
+                    h = random.randint(HSVRange_Orange[0], HSVRange_Orange[1])
+                    s = random.randint(HSVRange_Orange[2], HSVRange_Orange[3])
+                    v = random.randint(HSVRange_Orange[4], HSVRange_Orange[5])
+                    t = 186 + (i-1)*15 + j
+                    self.colorX[t] = [h, s, v]
+                    self.colorY[t] = i
+                if(i == 6):
+                    h = random.randint(HSVRange_White[0], HSVRange_White[1])
+                    s = random.randint(HSVRange_White[2], HSVRange_White[3])
+                    v = random.randint(HSVRange_White[4], HSVRange_White[5])
+                    t = 186 + (i-1)*15 + j
+                    self.colorX[t] = [h, s, v]
+                    self.colorY[t] = i
+                self.ax.scatter3D(h, s, v, c=CurColors(i))
+        self.ax.set_title('HSV plot')
+
+>>>>>>> Stashed changes
     def show_camera(self):
     
         is_ok, bgr_image_input = self.cap.read()
@@ -639,6 +729,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                 self.curDetect = 1
                 self.CalibrateEnd = True
                 self.curState = CurState.OriginalColor_Detect
+                plt.show()
             if (recnum != 9):
                 pass      
             elif(self.curDetect<7):
@@ -651,6 +742,7 @@ class MyWidget(QMainWindow,Ui_MainWindow):
                     self.index += 1
                     print(self.index)
                     print(self.colorX[t])
+                    self.ax.scatter3D(h, s, v, c=CurColors(self.curDetect))
 
                 if(self.index>30):
                     self.curState = CurState.CalibrateColors_Confirm

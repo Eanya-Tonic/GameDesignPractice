@@ -64,7 +64,7 @@ def getCenterHSV(bgrlist):
     h, s, v = cv2.split(hsv_image_input)
     return h, s, v
 
-#检测当前的面，上色
+#检测当前的面
 def detect_face(bgrlist, knn):
     i = 0
     contour_id = 0

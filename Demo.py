@@ -317,7 +317,6 @@ def get_string(c_list):
 
     return string
 
-
 def get_average_color(image, image_coordinates):
     result_string = [[0 for col in range(5)] for face in range(9)]
     running = 0
@@ -332,7 +331,7 @@ def get_average_color(image, image_coordinates):
         running = running + 1
     return result_string
 
-
+#当前的魔方的状态
 class CurState(Enum):
     Pause = 0
     OriginalColor_Detect = 1
@@ -346,7 +345,7 @@ class CurState(Enum):
     CalibrateColors = 9
     CalibrateColors_Confirm = 10
 
-
+#魔方换原的步骤 
 class CurLayer(Enum):
     Cross = 1
     Corner = 2
@@ -357,7 +356,7 @@ class CurLayer(Enum):
     pll_step_2 = 7
     Done = 8
 
-
+#选择解决的方法快速/普通
 class Solvemethod(Enum):
     UnChoose = 0
     K_method = 1
@@ -367,7 +366,7 @@ class Solvemethod(Enum):
 labelSig = 0
 clickFlag = False
 
-
+# 与用户的操作界面有关，不属于本次更新的范围
 class LabelDrawSticker(QLabel):  # 重写自己的QLabel
     global labelSig, clickFlag
 

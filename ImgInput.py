@@ -5,13 +5,12 @@ import Function as Fc
 
 DETECT_TIMES = 8
 
-
+# 利用knn的数据集分类器，对于一个识别到一定次数的色块进行定性
 def DetectFace(faces, curDetect, colorString, knn):
     DetectDone_Flag = False
     CenterCorrect_Flag = False
     face, blob_colors = Fc.detect_face(colorString, knn)  # 识别颜色
     detected_face = []
-    # print(blob_colors)
     if len(face) == 9:  # 识别到九个
         faces.append(face)  # 加入队列
         if len(faces) == DETECT_TIMES:  # 达到识别次数

@@ -646,12 +646,12 @@ class MyWidget(QMainWindow, Ui_MainWindow):
 
     def addSolidColors(self):
         random.seed()
-        HSVRange_Yellow = [28, 37, 43, 256, 46, 256]
-        HSVRange_Red = [-1, 8, 43, 256, 46, 256]
-        HSVRange_Red2 = [156, 180, 43, 256, 46, 256]
-        HSVRange_Green = [55, 80, 43, 256, 46, 256]
-        HSVRange_Orange = [10, 24, 43, 256, 46, 256]
-        HSVRange_Blue = [90, 124, 43, 256, 46, 256]
+        HSVRange_Yellow = [30, 37, 220, 256, 220, 256]
+        HSVRange_Red = [-1, 5, 220, 256, 220, 256]
+        HSVRange_Red2 = [156, 180, 220, 256, 220, 256]
+        HSVRange_Green = [55, 80, 220, 256, 220, 256]
+        HSVRange_Orange = [8, 16, 220, 256, 220, 256]
+        HSVRange_Blue = [90, 124, 220, 256, 220, 256]
         HSVRange_White = [0, 180, 0, 60, 150, 256]
         for i in range(1, 7):
             for j in range(16):

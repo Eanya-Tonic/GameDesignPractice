@@ -49,6 +49,7 @@ def color(bgrlist, knn):
     else:
         return "grey"
 
+<<<<<<< HEAD
     """
     if (h in range(HSVRange_White[0], HSVRange_White[1])) and (s in range(HSVRange_White[2], HSVRange_White[3])) and (v in range(HSVRange_White[4], HSVRange_White[5])):
         return "white"
@@ -85,6 +86,8 @@ def color(bgrlist, knn):
 
 
 # 获取中心颜色的HSV
+=======
+>>>>>>> bb286da9019dcfd4f571724227aec5e4aa3ba58c
 def getCenterHSV(bgrlist):
     bgrtuple = list(tuple(bgrlist[4]))
 
@@ -97,8 +100,13 @@ def getCenterHSV(bgrlist):
     h, s, v = cv2.split(hsv_image_input)
     return h, s, v
 
+<<<<<<< HEAD
 #识别当前面的颜色
 def detect_face(bgr_image_input, contours, bgrlist, knn):
+=======
+
+def detect_face(bgrlist, knn):  # 检测面
+>>>>>>> bb286da9019dcfd4f571724227aec5e4aa3ba58c
     i = 0
     contour_id = 0
     face = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0])
@@ -136,24 +144,6 @@ def detect_face(bgr_image_input, contours, bgrlist, knn):
                 blob_colors[i][3] = 5
                 face[i] = 5
 
-            # if (blob_colors[i][0] in range(HSVRange_White[0], HSVRange_White[1])) and (blob_colors[i][1] in range(HSVRange_White[2], HSVRange_White[3])) and (blob_colors[i][2] in range(HSVRange_White[4], HSVRange_White[5])):
-            #     blob_colors[i][3] = 6
-            #     face[i] = 6
-            # elif (blob_colors[i][0] in range(HSVRange_Yellow[0], HSVRange_Yellow[1])) and (blob_colors[i][1] in range(HSVRange_Yellow[2], HSVRange_Yellow[3])) and (blob_colors[i][2] in range(HSVRange_Yellow[4], HSVRange_Yellow[5])):
-            #     blob_colors[i][3] = 1
-            #     face[i] = 1
-            # elif (blob_colors[i][0] in range(HSVRange_Blue[0], HSVRange_Blue[1])) and (blob_colors[i][1] in range(HSVRange_Blue[2], HSVRange_Blue[3])) and (blob_colors[i][2] in range(HSVRange_Blue[4], HSVRange_Blue[5])):
-            #     blob_colors[i][3] = 2
-            #     face[i] = 2
-            # elif (blob_colors[i][0] in range(HSVRange_Red[0], HSVRange_Red[1])) and (blob_colors[i][1] in range(HSVRange_Red[2], HSVRange_Red[3])) and (blob_colors[i][2] in range(HSVRange_Red[4], HSVRange_Red[5])):
-            #     blob_colors[i][3] = 3
-            #     face[i] = 3
-            # elif (blob_colors[i][0] in range(HSVRange_Green[0], HSVRange_Green[1])) and (blob_colors[i][1] in range(HSVRange_Green[2], HSVRange_Green[3])) and (blob_colors[i][2] in range(HSVRange_Green[4], HSVRange_Green[5])):
-            #     blob_colors[i][3] = 4
-            #     face[i] = 4
-            # elif (blob_colors[i][0] in range(HSVRange_Orange[0], HSVRange_Orange[1])) and (blob_colors[i][1] in range(HSVRange_Orange[2], HSVRange_Orange[3])) and (blob_colors[i][2] in range(HSVRange_Orange[4], HSVRange_Orange[5])):
-            #     blob_colors[i][3] = 5
-            #     face[i] = 5
         print(face)
         if np.count_nonzero(face) == 9:
             # print(face)
@@ -170,6 +160,7 @@ def detect_face(bgr_image_input, contours, bgrlist, knn):
 KERNEL_CORE = 5
 ADAPTIVE = 51
 
+<<<<<<< HEAD
 #转换成灰度值，找到轮廓
 def FindContour(bgr_image_input):
     FinalContours = []
@@ -210,6 +201,8 @@ def DrawContour(bgr_image_input, contours):
                 cv2.drawContours(bgr_image_input, [
                                  contour], 0, (255, 255, 0), 2)  # 绘制轮廓
     return bgr_image_input
+=======
+>>>>>>> bb286da9019dcfd4f571724227aec5e4aa3ba58c
 
 STICKER_AREA_TILE_SIZE = 60
 STICKER_AREA_TILE_GAP = 5

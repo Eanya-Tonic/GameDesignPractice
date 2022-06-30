@@ -704,8 +704,6 @@ class MyWidget(QMainWindow, Ui_MainWindow):
                     self.colorY[t] = i
 
     def show_camera(self):
-        is_ok, bgr_image_input = self.cap.read()
-        bgr_image_input = np.fliplr(bgr_image_input.copy())
         ret, image = self.cap.read()
         image = image
         x, y = image.shape[0:2]
@@ -824,9 +822,8 @@ class MyWidget(QMainWindow, Ui_MainWindow):
 
         # 初始识别
         if(self.CountDown_Flag == False and self.curState == CurState.OriginalColor_Detect):
-            image_output1, contours = ImgInput.DrawContours(image_output)
             facesList, blob_colors, self.DetecteDone_Flag, self.CenterCorret_Flag, self.detected_face = ImgInput.DetectFace(
-                self.faces, bgr_image_input, contours, self.curDetect, self.color_s, self.knn)
+                self.faces, self.curDetect, self.color_s, self.knn)
             self.color_s = [[0 for col in range(5)] for face in range(9)]
             self.faces = facesList
             if(self.DetecteDone_Flag):
@@ -845,7 +842,6 @@ class MyWidget(QMainWindow, Ui_MainWindow):
             self.sendCube2D.emit(self.Cube2D)
         # 初始确认
         if(self.CountDown_Flag == False and self.curState == CurState.OriginalColor_Confirm):
-            image_output1, contours = ImgInput.DrawContours(bgr_image_input)
             self.color_s = [[0 for col in range(5)] for face in range(9)]
             self.detected_face[0] = self.receiveChange(self.detected_face[0])
             if(self.curDetect <= 6):
@@ -914,11 +910,8 @@ class MyWidget(QMainWindow, Ui_MainWindow):
                     self.Cube2D_temp = Cube2D.PreOperation(
                         step, self.Cube2D_temp)
                     self.NextMove_Flag = False
-                image_output1, contours = ImgInput.DrawContours(
-                    bgr_image_input)
-                # is_ok, bgr_image_input = self.cap.read()
                 facesList, blob_colors, self.DetecteDone_Flag, self.CenterCorret_Flag, self.detected_face = ImgInput.DetectFace(
-                    self.faces, bgr_image_input, contours, self.curDetect, self.color_s, self.knn)
+                    self.faces, self.curDetect, self.color_s, self.knn)
                 self.color_s = [[0 for col in range(5)] for face in range(9)]
                 self.faces = facesList
                 if(self.DetecteDone_Flag):
@@ -1028,12 +1021,9 @@ class MyWidget(QMainWindow, Ui_MainWindow):
                             text = self.setNamepair(self.Cube2D_temp)
                             self.ui.Text12_NamePair.setText(text)
                         self.NextMove_Flag = False
-                    image_output1, contours = ImgInput.DrawContours(
-                        bgr_image_input)
                     image_output = image.copy()
-                    # is_ok, bgr_image_input = self.cap.read()
                     facesList, blob_colors, self.DetecteDone_Flag, self.CenterCorret_Flag, self.detected_face = ImgInput.DetectFace(
-                        self.faces, bgr_image_input, contours, self.curDetect, self.color_s)
+                        self.faces, self.curDetect, self.color_s, self.knn)
                     self.faces = facesList
                     if(self.DetecteDone_Flag):
                         if(len(self.detected_face) != 0):
@@ -1084,14 +1074,13 @@ class MyWidget(QMainWindow, Ui_MainWindow):
         self.DrawInstructionText(self.curDetect)
         self.timer_camera.start(30)
 
-        if(is_ok):
-            show = cv2.resize(image_output, (1280, 960))
-            show = cv2.cvtColor(show, cv2.COLOR_BGR2RGB)
-            showImage = QtGui.QImage(
-                show.data, show.shape[1], show.shape[0], QtGui.QImage.Format_RGB888)
-            self.ui.Label_ImgInput.setPixmap(
-                QtGui.QPixmap.fromImage(showImage))
-            self.ui.Label_ImgInput.setScaledContents(True)
+        show = cv2.resize(image_output, (1280, 960))
+        show = cv2.cvtColor(show, cv2.COLOR_BGR2RGB)
+        showImage = QtGui.QImage(
+            show.data, show.shape[1], show.shape[0], QtGui.QImage.Format_RGB888)
+        self.ui.Label_ImgInput.setPixmap(
+            QtGui.QPixmap.fromImage(showImage))
+        self.ui.Label_ImgInput.setScaledContents(True)
 
     def receiveChange(self, detected_face):
         global labelSig, clickFlag

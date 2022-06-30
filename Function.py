@@ -6,18 +6,16 @@ import Operation as Op
 STICKER_AREA_SIZE_MIN = 7000
 STICKER_AREA_SIZE_MAX = 9000
 
-
+#将每一个面所行成的矩阵全部连接起来，用于输入换原魔方函数中
 def concat(up_face, right_face, front_face, down_face, left_face, back_face):
-    # solution = [up_face,right_face,front_face,down_face,left_face,back_face]
     solution = np.concatenate((up_face, right_face), axis=None)
     solution = np.concatenate((solution, front_face), axis=None)
     solution = np.concatenate((solution, down_face), axis=None)
     solution = np.concatenate((solution, left_face), axis=None)
     solution = np.concatenate((solution, back_face), axis=None)
-    # print(solution)
     return solution
 
-
+#获得的RGB通过Knn数据集，获得HSV的值，返回对应的6种颜色
 def color(bgrlist, knn):
     """
     Takes a tuple input that has (b,g,r) and return the color of that pixel
@@ -67,7 +65,6 @@ def color(bgrlist, knn):
     else:
         return "grey"
     """
-
     # #if (r >100 and  r*1.3> g > r*0.9 and r*0.9>b>r*0.7):
     # if (-60 < r-g < 60 and 55<r-b<105):
     #     return "yellow"
@@ -85,9 +82,9 @@ def color(bgrlist, knn):
     # else:
     #     return "grey"
 
+
+
 # 获取中心颜色的HSV
-
-
 def getCenterHSV(bgrlist):
     bgrtuple = list(tuple(bgrlist[4]))
 
@@ -100,8 +97,8 @@ def getCenterHSV(bgrlist):
     h, s, v = cv2.split(hsv_image_input)
     return h, s, v
 
-
-def detect_face(bgr_image_input, contours, bgrlist, knn):  # 检测面
+#识别当前面的颜色
+def detect_face(bgr_image_input, contours, bgrlist, knn):
     i = 0
     contour_id = 0
     face = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0])
@@ -173,7 +170,7 @@ def detect_face(bgr_image_input, contours, bgrlist, knn):  # 检测面
 KERNEL_CORE = 5
 ADAPTIVE = 51
 
-
+#转换成灰度值，找到轮廓
 def FindContour(bgr_image_input):
     FinalContours = []
     gray = cv2.cvtColor(bgr_image_input, cv2.COLOR_BGR2GRAY)  # 转灰度
@@ -197,7 +194,7 @@ def FindContour(bgr_image_input):
     contours = FinalContours
     return contours
 
-
+#通过以上，画出轮廓
 def DrawContour(bgr_image_input, contours):
     contour_id = 0
     for contour in contours:  # 对每一个轮廓的内容进行颜色识别
@@ -214,7 +211,6 @@ def DrawContour(bgr_image_input, contours):
                                  contour], 0, (255, 255, 0), 2)  # 绘制轮廓
     return bgr_image_input
 
-
 STICKER_AREA_TILE_SIZE = 60
 STICKER_AREA_TILE_GAP = 5
 STICKER_AREA_OFFSET = 5
@@ -227,7 +223,7 @@ BGR_ORANGE = (48, 110, 248)
 BGR_BLUE = (172, 72, 0)
 BGR_WHITE = (255, 255, 255)
 
-
+#绘制3D模型的颜色
 def draw_stickers(frame, face, offset_x, offset_y):
     """Draws the given stickers onto the given frame."""
     index = -1
@@ -279,7 +275,7 @@ MINI_STICKER_AREA_TILE_GAP = 3
 MINI_STICKER_AREA_OFFSET = 0
 COLOR_PLACEHOLDER = (150, 150, 150)
 
-
+#绘制对应的展开模型的颜色
 def draw_2d_cube_state(frame, solution):
     """
     Create a 2D cube state visualization and draw the self.result_state.
@@ -392,7 +388,7 @@ def draw_2d_cube_state(frame, solution):
 LINE_COLOR = (255, 255, 255)
 TIP_LENGTH = 0.2
 
-
+#绘制指令
 def DrawInstruction(bgr_image_input, blob_colors, condition):
     if(condition == Op.Operation_ToShow.N):
         pass

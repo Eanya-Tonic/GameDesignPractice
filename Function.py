@@ -49,7 +49,7 @@ def color(bgrlist, knn):
     else:
         return "grey"
 
-
+z
 
 # 获取中心颜色的HSV
 def getCenterHSV(bgrlist):
